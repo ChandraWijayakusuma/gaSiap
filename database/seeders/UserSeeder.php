@@ -15,10 +15,10 @@ class UserSeeder extends Seeder
     {
         DB::table('users')->insert([
             [
-                'name' => 'Admin User',
-                'email' => 'admin@example.com',
+                'name' => 'Kaprodi User',
+                'email' => 'kapro@example.com',
                 'password' => Hash::make('password123'), // Simpan password dalam bentuk hash
-                'role' => 'admin', // Pastikan nilai sesuai
+                'role' => 'kapro', // Pastikan nilai sesuai
                 'prodi' => 'Teknik Informatika',
                 'created_at' => now(),
                 'updated_at' => now(),
