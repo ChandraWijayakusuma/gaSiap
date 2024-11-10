@@ -55,7 +55,7 @@
                 color: #6c757d;
             }
 
-            /* Main Content */
+
             .content {
                 padding: 0 1.5rem 1.5rem;
             }
