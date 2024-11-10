@@ -17,8 +17,6 @@
                 background-color: #f8f9fa;
                 color: #333;
             }
-
-            /* Header Styles */
             .header {
                 background-color: #4a148c;
                 padding: 1rem 1.5rem;
