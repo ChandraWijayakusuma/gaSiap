@@ -50,6 +50,15 @@ class UserSeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
+            [
+                'name' => 'BagianAKA User',
+                'email' => 'BagianAKA@example.com',
+                'password' => Hash::make('password123'),
+                'role' => 'BA', // Pastikan nilai sesuai
+                'prodi' => 'Teknik Informatika',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
         ]);
     }
 }
