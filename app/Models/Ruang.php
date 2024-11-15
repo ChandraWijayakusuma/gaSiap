@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -9,7 +8,12 @@ class Ruang extends Model
 {
     use HasFactory;
 
-    protected $table = 'ruang'; // Tentukan nama tabel secara eksplisit
+    protected $table = 'ruang'; // Pastikan ini mengacu pada tabel yang benar
 
-    protected $fillable = ['nama_ruang', 'kuota_ruang', 'prodi']; // Kolom yang dapat diisi
+    protected $fillable = [
+        'nama_ruang',
+        'kuota_ruang',
+        'prodi',
+        'status_persetujuan', // Tambahkan ini untuk memastikan dapat diisi
+    ];
 }
