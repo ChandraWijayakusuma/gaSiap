@@ -1,28 +1,38 @@
 <?php
 
 use App\Http\Controllers\LoginControl;
+use App\Http\Controllers\RuangController;
+use App\Http\Controllers\JadwalKuliahController; // Tambahkan ini untuk jadwalkuliah
 use Illuminate\Support\Facades\Route;
 
 // Route untuk halaman login
 Route::get('/login', [LoginControl::class, 'showLoginForm'])->name('login');
+Route::post('/login', [LoginControl::class, 'login'])->name('login.process');
 
-// Route untuk proses login
-Route::post('/login', [LoginControl::class, 'login']);
+// Route untuk dashboard berdasarkan role tanpa middleware
+Route::get('/dashboard', [LoginControl::class, 'dashboard'])->name('dashboard');
+Route::get('/dashboard/dekan', [LoginControl::class, 'dashDekan'])->name('dashboard.dekan');
+Route::get('/dashboard/BA', [LoginControl::class, 'dashBA'])->name('dashboard.ba');
+Route::get('/dashboard/kapro', [LoginControl::class, 'dashKapro'])->name('dashboard.kapro');
+Route::get('/dashboard/user', [LoginControl::class, 'dashUser'])->name('dashboard.user');
+Route::get('/dashboard/dosen', [LoginControl::class, 'dashDosen'])->name('dashboard.dosen');
+Route::get('/dashboard/mahasiswa', [LoginControl::class, 'dashMahasiswa'])->name('dashboard.mahasiswa');
 
-Route::get('/dashboard/admin', [LoginControl::class, 'adminDashboard'])->name('dashboard.admin')->middleware('auth', 'role:admin');
-Route::get('/dashboard/dosen', [LoginControl::class, 'dosenDashboard'])->name('dashboard.dosen')->middleware('auth', 'role:dosen');
-Route::get('/dashdekan', [LoginControl::class, 'dashDekan'])->name('dashdekan')->middleware('auth', 'role:dekan');
-Route::get('/dashboard/mahasiswa', [LoginControl::class, 'mahasiswaDashboard'])->name('dashboard.mahasiswa')->middleware('auth', 'role:mahasiswa');
+// Route untuk halaman jadwal kuliah
+Route::get('/jadwalkuliah', [JadwalKuliahController::class, 'index'])->name('jadwalkuliah'); // Tambahkan route untuk jadwal kuliah
 
-// Route untuk dashboard utama
-Route::get('/dashboard', [LoginControl::class, 'dashboard'])
-    ->middleware('auth')
-    ->name('dashboard');
+// Route untuk halaman makeruang dan pengelolaan ruangan
+Route::get('/makeruang', [RuangController::class, 'create'])->name('makeruang');
+Route::post('/makeruang', [RuangController::class, 'store'])->name('rooms.store'); // Menambah ruangan baru
+Route::patch('/update-room/{id}', [RuangController::class, 'update'])->name('rooms.update'); // Mengedit ruangan
+Route::delete('/delete-room/{id}', [RuangController::class, 'destroy'])->name('rooms.destroy'); // Menghapus ruangan
+Route::patch('/clear-prodi/{id}', [RuangController::class, 'clearProdi'])->name('rooms.clearProdi'); // Mengosongkan prodi
+Route::get('/pengajuan-ruang', [RuangController::class, 'showPengajuanRuang'])->name('rooms.pengajuan');
+Route::patch('/setujui-ruang/{id}', [RuangController::class, 'setujuiRuang'])->name('rooms.setujui');
+Route::patch('/setujui-semua-ruang', [RuangController::class, 'setujuiSemua'])->name('rooms.setujuiSemua');
+Route::get('/dashboard/dekan', [RuangController::class, 'dashDekan'])->name('dashboard.dekan');
+Route::get('/dashboard/BA', [RuangController::class, 'getStatusRuang'])->name('dashboard.ba');
 
-// Route khusus untuk dekan
-Route::get('/dashdekan', [LoginControl::class, 'dashDekan'])
-    ->middleware(['auth', 'role:dekan'])
-    ->name('dashdekan');
 
 // Route untuk logout
 Route::post('/logout', [LoginControl::class, 'logout'])->name('logout');

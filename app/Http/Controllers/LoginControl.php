@@ -10,7 +10,7 @@ class LoginControl extends Controller
     // Menampilkan form login
     public function showLoginForm()
     {
-        return view('login'); // Pastikan 'login' sesuai dengan nama file Blade Anda di resources/views
+        return view('login');
     }
 
     // Fungsi login
@@ -18,7 +18,7 @@ class LoginControl extends Controller
     {
         // Validasi input
         $request->validate([
-            'email' => 'required|email',      // Atau 'username' jika tidak pakai email
+            'email' => 'required|email',
             'password' => 'required|min:6',
         ]);
 
@@ -27,24 +27,92 @@ class LoginControl extends Controller
 
         // Cek autentikasi
         if (Auth::attempt($credentials)) {
-            // Ambil data user yang sedang login
             $user = Auth::user();
-            
-            // Redirect ke halaman dashboard dengan mengirim role
-            return redirect()->route('dashboard')->with('role', $user->role);
+
+            // Debugging untuk memastikan role terbaca dengan benar
+            if (!$user->role) {
+                return redirect()->back()->withErrors(['error' => 'Role tidak ditemukan untuk pengguna ini']);
+            }
+
+            // Redirect berdasarkan role
+            return $this->redirectToRoleDashboard($user->role);
         }
 
-        // Kembali ke halaman login jika gagal
+        // Kembali ke halaman login jika autentikasi gagal
         return redirect()->back()->withErrors(['error' => 'Email atau password salah']);
     }
 
-    // Tampilan dashboard setelah login
+    // Fungsi untuk mengarahkan pengguna ke dashboard sesuai role
+    private function redirectToRoleDashboard($role)
+    {
+        switch ($role) {
+            case 'dekan':
+                return redirect()->route('dashboard.dekan');
+            case 'BA':
+                return redirect()->route('dashboard.ba');
+            case 'kapro':
+                return redirect()->route('dashboard.kapro');
+            case 'user':
+                return redirect()->route('dashboard.user');
+            case 'dosen':
+                return redirect()->route('dashboard.dosen');
+            case 'mahasiswa':
+                return redirect()->route('dashboard.mahasiswa');
+            default:
+                return redirect()->route('login')->withErrors(['error' => 'Role tidak dikenali']);
+        }
+    }
+
+    // Fungsi dashboard umum yang mengarahkan berdasarkan role
     public function dashboard()
     {
-        // Ambil role dari user yang sedang login
-        $role = Auth::user()->role;
-        
-        // Kirim role ke view
-        return view('dashboard', compact('role'));
+        $user = Auth::user();
+
+        if ($user) {
+            return $this->redirectToRoleDashboard($user->role);
+        }
+
+        return redirect()->route('login')->withErrors(['error' => 'Anda harus login terlebih dahulu']);
+    }
+
+    // Fungsi logout
+    public function logout(Request $request)
+    {
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect()->route('login');
+    }
+
+    // Fungsi dashboard khusus untuk setiap role
+    public function dashDekan()
+    {
+        return view('dashboard.dashdekan');
+    }
+
+    public function dashBA()
+    {
+        return view('dashboard.dashba');
+    }
+
+    public function dashKapro()
+    {
+        return view('dashboard.dashkapro');
+    }
+
+    public function dashUser()
+    {
+        return view('dashboard.dashuser');
+    }
+
+    public function dashDosen()
+    {
+        return view('dashboard.dashdosen');
+    }
+
+    public function dashMahasiswa()
+    {
+        return view('dashboard.dashmahasiswa');
     }
 }
