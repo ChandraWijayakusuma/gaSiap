@@ -25,12 +25,13 @@ class RuangController extends Controller
         Ruang::create([
             'nama_ruang' => $request->nama_ruang,
             'kuota_ruang' => $request->kuota_ruang,
-            'prodi' => null, // Awalnya kosong
+            'prodi' => null,
             'status_persetujuan' => 'Belum Disetujui', // Default status
         ]);
 
         return redirect()->back()->with('success', 'Room added successfully.');
     }
+
 
     // Fungsi untuk mengupdate ruangan
     public function update(Request $request, $id)
@@ -42,14 +43,18 @@ class RuangController extends Controller
         ]);
 
         $room = Ruang::findOrFail($id);
+
+        // Reset status_persetujuan jika terjadi perubahan
         $room->update([
             'nama_ruang' => $request->nama_ruang,
             'kuota_ruang' => $request->kuota_ruang,
             'prodi' => $request->prodi,
+            'status_persetujuan' => 'Belum Disetujui', // Set status menjadi "Belum Disetujui"
         ]);
 
         return redirect()->back()->with('success', 'Room updated successfully.');
     }
+
 
     // Fungsi untuk menghapus ruangan
     public function destroy($id)
@@ -71,11 +76,14 @@ class RuangController extends Controller
     public function clearProdi($id)
     {
         $room = Ruang::findOrFail($id);
-        $room->prodi = null;
-        $room->save();
+        $room->update([
+            'prodi' => null,
+            'status_persetujuan' => 'Belum Disetujui', // Set ulang status menjadi "Belum Disetujui"
+        ]);
 
         return redirect()->back()->with('success', 'Prodi cleared successfully.');
     }
+
 
     // Menyetujui semua ruangan yang belum disetujui
     public function setujuiSemua()
@@ -88,8 +96,7 @@ class RuangController extends Controller
     public function setujuiRuang($id)
     {
         $room = Ruang::findOrFail($id);
-        $room->status_persetujuan = 'Disetujui';
-        $room->save();
+        $room->update(['status_persetujuan' => 'Disetujui']);
 
         return redirect()->back()->with('success', 'Ruang telah disetujui.');
     }
@@ -106,7 +113,7 @@ class RuangController extends Controller
         // Hitung kelas yang tidak terisi (di mana kolom `prodi` kosong)
         $kelasTidakTerisi = Ruang::whereNull('prodi')->count();
 
-        // Cek status pengajuan keseluruhan (apakah ada yang belum disetujui)
+        // Cek status pengajuan keseluruhan
         $statusPengajuan = Ruang::where('status_persetujuan', 'Belum Disetujui')->exists()
             ? 'Belum Disetujui'
             : 'Disetujui';
@@ -115,7 +122,7 @@ class RuangController extends Controller
         return view('dashboard.dashba', compact('totalKelas', 'kelasTerisi', 'kelasTidakTerisi', 'statusPengajuan'));
     }
 
-    // Mendapatkan status pengajuan ruang untuk tampilan dashboard dekan
+    // Mendapatkan status ruang untuk tampilan dashboard Dekan
     public function dashDekan()
     {
         // Cek apakah semua ruang sudah disetujui atau belum
@@ -123,7 +130,6 @@ class RuangController extends Controller
             ? 'Belum Verifikasi'
             : 'Sudah Verifikasi';
 
-        // Kirim data ke view dashboard dekan
         return view('dashboard.dashdekan', compact('statusPengajuanRuang'));
     }
 }
