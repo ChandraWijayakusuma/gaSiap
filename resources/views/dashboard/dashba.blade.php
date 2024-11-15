@@ -1,3 +1,5 @@
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,7 +17,6 @@
             color: #333;
         }
 
-        /* Header Styles */
         .header {
             background-color: #4a148c;
             padding: 1rem 1.5rem;
@@ -46,13 +47,11 @@
             background-color: #c82333;
         }
 
-        /* Breadcrumb */
         .breadcrumb {
             padding: 1rem 1.5rem;
             color: #6c757d;
         }
 
-        /* Main Content */
         .content {
             padding: 0 1.5rem 1.5rem;
         }
@@ -71,7 +70,6 @@
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
         }
 
-        /* Profile Card */
         .profile-card {
             display: flex;
             align-items: center;
@@ -84,7 +82,7 @@
             overflow: hidden;
             margin-right: 1rem;
             flex-shrink: 0;
-            transform: translateY(-10px); /* Mengangkat gambar sedikit ke atas */
+            transform: translateY(-10px);
         }
 
         .profile-image img {
@@ -113,15 +111,9 @@
             margin: 1rem 0;
         }
 
-        /* Status Card */
         .status-card h2 {
             font-size: 1.25rem;
             margin-bottom: 1rem;
-        }
-
-        .faculty-name {
-            color: #495057;
-            margin-bottom: 1.5rem;
         }
 
         .status-grid {
@@ -143,7 +135,24 @@
             color: #212529;
         }
 
-        /* Room Section */
+        .status-pengajuan {
+            font-weight: bold;
+            text-align: center;
+            padding: 0.5rem;
+            border-radius: 5px;
+            margin-top: 1rem;
+        }
+
+        .status-pengajuan.disetujui {
+            color: #28a745;
+            background-color: #d4edda;
+        }
+
+        .status-pengajuan.belum-disetujui {
+            color: #dc3545;
+            background-color: #f8d7da;
+        }
+
         .room-section {
             background: white;
             border-radius: 0.5rem;
@@ -152,6 +161,8 @@
             align-items: center;
             gap: 1.5rem;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            text-decoration: none; /* Hilangkan underline pada tautan */
+            color: inherit; /* Warna teks mengikuti warna default */
         }
 
         .room-icon {
@@ -184,19 +195,20 @@
             }
         }
     </style>
-    </head>
-    <body>
+</head>
+<body>
     <header class="header">
-        <a href="#" class="logo">gaSIAP</a>
-        <button class="logout-btn">Logout</button>
+        <a href="{{ route('dashboard') }}" class="logo">gaSIAP</a>
+        <form method="POST" action="{{ route('logout') }}">
+            @csrf
+            <button type="submit" class="logout-btn">Logout</button>
+        </form>
     </header>
 
-    <!-- Breadcrumb -->
     <div class="breadcrumb">
         Home / Dashboard
     </div>
 
-    <!-- Main Content -->
     <main class="content">
         <div class="dashboard-cards">
             <!-- Profile Card -->
@@ -220,26 +232,32 @@
             <!-- Status Card -->
             <div class="card status-card">
                 <h2>Status Ruang</h2>
-                <p class="faculty-name">Fakultas: Petir dan Ilmu Hitam</p>
+
+                <!-- Status dari Database -->
                 <div class="status-grid">
                     <div>
                         <p class="status-item-label">Total Kelas</p>
-                        <p class="status-item-value">20</p>
+                        <p class="status-item-value">{{ $totalKelas }}</p>
                     </div>
                     <div>
                         <p class="status-item-label">Kelas Terisi</p>
-                        <p class="status-item-value">14</p>
+                        <p class="status-item-value">{{ $kelasTerisi }}</p>
                     </div>
                     <div>
                         <p class="status-item-label">Kelas Tidak Terisi</p>
-                        <p class="status-item-value">6</p>
+                        <p class="status-item-value">{{ $kelasTidakTerisi }}</p>
                     </div>
+                </div>
+
+                <!-- Status Pengajuan -->
+                <div class="status-pengajuan {{ $statusPengajuan == 'Disetujui' ? 'disetujui' : 'belum-disetujui' }}">
+                    Status Pengajuan: {{ $statusPengajuan }}
                 </div>
             </div>
         </div>
 
-        <!-- Room Section -->
-        <div class="room-section">
+        <!-- Room Section as a clickable link -->
+        <a href="{{ route('makeruang') }}" class="room-section">
             <div class="room-icon">
                 <img src="{{ asset('house.png') }}" alt="Room Icon">
             </div>
@@ -247,6 +265,7 @@
                 <h2>RUANG</h2>
                 <p>Pengaturan Ketersediaan Ruang dan Kuota Ruang</p>
             </div>
-        </div>
+        </a>
     </main>
-    </body>
+</body>
+</html>

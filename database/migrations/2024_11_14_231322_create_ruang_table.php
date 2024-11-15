@@ -15,9 +15,9 @@ class CreateRuangTable extends Migration
     {
         Schema::create('ruang', function (Blueprint $table) {
             $table->id();
-            $table->string('nama_ruang');
-            $table->integer('kuota_ruang');
-            $table->string('prodi')->nullable(); // Prodi dapat kosong
+            $table->string('nama_ruang');         // Kolom nama ruang
+            $table->integer('kuota_ruang');       // Kolom kuota ruang
+            $table->string('prodi')->nullable();  // Kolom prodi yang bisa kosong
             $table->timestamps();
         });
     }
