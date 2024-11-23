@@ -28,7 +28,7 @@ Route::patch('/clear-prodi/{id}', [RuangController::class, 'clearProdi'])->name(
 Route::get('/pengajuan-ruang', [RuangController::class, 'showPengajuanRuang'])->name('rooms.pengajuan');
 Route::patch('/setujui-ruang/{id}', [RuangController::class, 'setujuiRuang'])->name('rooms.setujui');
 Route::patch('/setujui-semua-ruang', [RuangController::class, 'setujuiSemua'])->name('rooms.setujuiSemua');
-Route::get('/dashboard/BA', [RuangController::class, 'getStatusRuang'])->name('dashboard');
+
 
 
 
