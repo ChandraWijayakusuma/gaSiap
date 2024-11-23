@@ -12,15 +12,22 @@ return new class extends Migration
     public function up()
     {
         Schema::table('ruang', function (Blueprint $table) {
-            $table->string('status_persetujuan')->default('Belum Disetujui')->after('prodi');
+            // Tambahkan kolom hanya jika belum ada
+            if (!Schema::hasColumn('ruang', 'status_persetujuan')) {
+                $table->string('status_persetujuan')->default('Belum Disetujui');
+            }
         });
     }
 
+    /**
+     * Reverse the migrations.
+     */
     public function down()
     {
         Schema::table('ruang', function (Blueprint $table) {
-            $table->dropColumn('status_persetujuan');
+            if (Schema::hasColumn('ruang', 'status_persetujuan')) {
+                $table->dropColumn('status_persetujuan');
+            }
         });
     }
-
 };

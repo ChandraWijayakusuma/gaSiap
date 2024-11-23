@@ -207,14 +207,14 @@
                     </div>
                     <div>
                         <p class="status-item-label">Ruang</p>
-                        <p class="status-item-value">{{ $statusPengajuanRuang }}</p>
+                        <p class="status-item-value">{{ $statusPengajuanRuang ?? 'Belum Verifikasi' }}</p>
                     </div>
                 </div>
             </div>
         </div>
 
         <!-- New Sections for Jadwal Kuliah and Ruang -->
-        <a href="{{ route('rooms.pengajuan') }}" class="room-section">
+        <a href="{{ route('dekan.jadwal.penyetujuan') }}" class="room-section">
             <img src="{{ asset('calan.png') }}" alt="Jadwal Icon">
             <div>
                 <h2>JADWAL KULIAH</h2>

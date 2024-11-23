@@ -114,11 +114,12 @@
         .status-card h2 {
             font-size: 1.25rem;
             margin-bottom: 1rem;
+            text-align: center;
         }
 
         .status-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(2, 1fr);
             gap: 1rem;
             text-align: center;
         }
@@ -132,25 +133,14 @@
         .status-item-value {
             font-size: 1.5rem;
             font-weight: 700;
-            color: #212529;
         }
 
-        .status-pengajuan {
-            font-weight: bold;
-            text-align: center;
-            padding: 0.5rem;
-            border-radius: 5px;
-            margin-top: 1rem;
+        .status-item-value.verifikasi {
+            color: #28a745; /* Hijau */
         }
 
-        .status-pengajuan.disetujui {
-            color: #28a745;
-            background-color: #d4edda;
-        }
-
-        .status-pengajuan.belum-disetujui {
-            color: #dc3545;
-            background-color: #f8d7da;
+        .status-item-value.belum-verifikasi {
+            color: #dc3545; /* Merah */
         }
 
         .room-section {
@@ -161,43 +151,35 @@
             align-items: center;
             gap: 1.5rem;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-            text-decoration: none; /* Hilangkan underline pada tautan */
-            color: inherit; /* Warna teks mengikuti warna default */
+            cursor: pointer;
+            margin-top: 1.5rem;
+            color: inherit;
+            text-decoration: none;
         }
 
-        .room-icon {
-            width: 48px;
-            height: 48px;
-            background-color: #e9ecef;
-            border-radius: 0.5rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .room-icon img {
+        .room-section img {
             width: 32px;
             height: 32px;
+            margin-right: 1rem;
         }
 
-        .room-info h2 {
+        .room-section h2 {
             font-size: 1.25rem;
-            margin-bottom: 0.25rem;
         }
 
-        .room-info p {
+        .room-section p {
             color: #6c757d;
         }
 
-        @media (max-width: 768px) {
-            .dashboard-cards {
-                grid-template-columns: 1fr;
-            }
+        .status-jadwal {
+            margin-top: 2rem;
+            text-align: center;
         }
     </style>
 </head>
 <body>
     <header class="header">
+        <a href="{{ route('dashboard') }}" class="logo">gaSIAP</a>
         <form method="POST" action="{{ route('logout') }}">
             @csrf
             <button type="submit" class="logout-btn">Logout</button>
@@ -213,14 +195,14 @@
             <!-- Profile Card -->
             <div class="card profile-card">
                 <div class="profile-image">
-                    <img src="{{ asset('paruq.jpg') }}" alt="Foto Profil">
+                    <img src="{{ asset('mbpe.jpg') }}" alt="Foto Profil">
                 </div>
                 <div class="profile-info">
-                    <h2 class="profile-title">Bagian Akademik</h2>
-                    <p>Erje Pitu</p>
+                    <h2 class="profile-title">Ketua Program Studi</h2>
+                    <p>Mbappe Al Ansor</p>
                     <p>12023245067807</p>
-                    <p>alma.s@edumind.ac.id</p>
-                    <p>almasiumintak@gmail.com</p>
+                    <p>mbpee.s@edumind.ac.id</p>
+                    <p>zimbape@gmail.com</p>
                     <p>081924667834</p>
                     <hr class="profile-divider">
                     <p>Fakultas Petir dan Ilmu Hitam</p>
@@ -230,33 +212,36 @@
 
             <!-- Status Card -->
             <div class="card status-card">
-                <h2>Status Ruang</h2>
-
-                <!-- Status dari Database -->
+                <h2>Status IRS</h2>
                 <div class="status-grid">
                     <div>
-                        <p class="status-item-label">Total Kelas</p>
+                        <p class="status-item-label">IRS Terverifikasi</p>
+                        <p class="status-item-value verifikasi">10</p>
                     </div>
                     <div>
-                        <p class="status-item-label">Kelas Terisi</p>
-                    </div>
-                    <div>
-                        <p class="status-item-label">Kelas Tidak Terisi</p>
+                        <p class="status-item-label">IRS Belum Terverifikasi</p>
+                        <p class="status-item-value belum-verifikasi">15</p>
                     </div>
                 </div>
 
-                <!-- Status Pengajuan -->
+                <!-- Status Jadwal Mata Kuliah -->
+                <div class="status-jadwal">
+                    <p class="status-item-label" style="margin-bottom: 0.5rem;">Status Jadwal Mata Kuliah</p>
+                    <p class="status-item-value verifikasi">Disetujui</p>
+                </div>
             </div>
         </div>
 
         <!-- Room Section as a clickable link -->
-            <div class="room-icon">
-                <img src="{{ asset('house.png') }}" alt="Room Icon">
-            </div>
-            <div class="room-info">
-                <h2>RUANG</h2>
-                <p>Pengaturan Ketersediaan Ruang dan Kuota Ruang</p>
-            </div>
+        <a href="{{ route('jadwalkuliah') }}" class="room-section">
+        <div class="room-icon">
+            <img src="{{ asset('calan.png') }}" alt="Room Icon">
+        </div>
+        <div class="room-info">
+            <h2>Jadwal Kuliah</h2>
+            <p>Pengaturan Penempatan Matakuliah</p>
+        </div>
+    </a>
     </main>
 </body>
 </html>
