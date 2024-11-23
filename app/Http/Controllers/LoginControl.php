@@ -4,9 +4,18 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\RuangController;
 
 class LoginControl extends Controller
 {
+    protected $ruangController;
+
+    // Constructor untuk menyisipkan RuangController
+    public function __construct(RuangController $ruangController)
+    {
+        $this->ruangController = $ruangController;
+    }
+
     // Menampilkan form login
     public function showLoginForm()
     {
@@ -93,7 +102,9 @@ class LoginControl extends Controller
 
     public function dashBA()
     {
-        return view('dashboard.dashba');
+        // Panggil metode getStatusData dari RuangController
+        $statusData = $this->ruangController->getStatusRuang();
+        return view('dashboard.dashba', $statusData);
     }
 
     public function dashKapro()
