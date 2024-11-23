@@ -4,17 +4,19 @@ namespace App\Http\Controllers;
 
 use App\Models\Matakuliah;
 use App\Models\Ruang;
-use App\Models\Jadwal; // Pastikan model Jadwal ada dan terhubung dengan database
+use App\Models\Jadwal;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
+
 
 class JadwalKuliahController extends Controller
 {
     // Menampilkan Jadwal Kuliah
     public function showJadwal()
     {
-        // Ambil semua data jadwal dari database, bersama relasi Mata Kuliah dan Ruang
-        $jadwal = Jadwal::with(['matakuliah', 'ruang'])->get();
+        // Ambil semua data jadwal dari database, bersama relasi Mata Kuliah
+        $jadwal = Jadwal::with(['matakuliah'])->get();
 
         // Ambil data Mata Kuliah untuk list draggable
         $matakuliah = Matakuliah::all();
@@ -29,81 +31,90 @@ class JadwalKuliahController extends Controller
     // Submit Jadwal ke database
     public function submitJadwal(Request $request)
     {
-        try {
-            $request->validate([
-                'jadwal' => 'required|array',
-                'jadwal.*.day' => 'required|string',
-                'jadwal.*.hour' => 'required|string',
-                'jadwal.*.matakuliah_id' => 'required|integer',
-                'jadwal.*.room' => 'required|string',
-            ]);
-        } catch (\Illuminate\Validation\ValidationException $e) {
-            return redirect()->back()->withErrors($e->validator->errors());
+    try {
+        $data = json_decode($request->input('jadwal'), true);
+        
+        if (!is_array($data) || empty($data)) {
+            return response()->json([
+                'success' => false, 
+                'message' => 'Invalid data format'
+            ], 400);
         }
 
-        // Proses penyimpanan
-        foreach ($request->jadwal as $data) {
-            Jadwal::create([
-                'hari' => $data['day'],
-                'jam' => $data['hour'],
-                'matakuliah_id' => $data['matakuliah_id'],
-                'ruangan' => $data['room'],
-                'status' => 'Pending',
-            ]);
-        }
+        DB::transaction(function () use ($data) {
+            // Hapus semua data di tabel jadwal
+            DB::statement('DELETE FROM jadwal');
 
-        return redirect()->route('dekan.jadwal.penyetujuan')->with('success', 'Jadwal berhasil diajukan.');
+            // Simpan data baru
+            foreach ($data as $jadwal) {
+                Jadwal::create([
+                    'day' => $jadwal['hari'],
+                    'hour' => $jadwal['jam_mulai'], 
+                    'hari' => $jadwal['hari'],
+                    'jam_mulai' => $jadwal['jam_mulai'],
+                    'jam_selesai' => $jadwal['jam_selesai'],
+                    'matakuliah_id' => $jadwal['mata_kuliah'],
+                    'room' => $jadwal['ruang'],
+                    'ruangan' => $jadwal['ruang'],
+                    'status' => 'Belum Setujui'  // Default status
+                ]);
+            }
+        });
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Jadwal berhasil disimpan'
+        ]);
+
+    } catch (\Exception $e) {
+        Log::error('Jadwal submission error: ' . $e->getMessage());
+        return response()->json([
+            'success' => false,
+            'message' => 'Error: ' . $e->getMessage()
+        ], 500);
+    }
     }
 
+    
 
 
     // Menampilkan pengajuan jadwal untuk Dekan
     public function viewPengajuan()
     {
-        // Ambil semua jadwal dengan status 'Pending'
-        $jadwal = Jadwal::with(['matakuliah', 'ruang'])
-            ->where('status', 'Pending')
-            ->get();
+    // Ubah ini untuk mengambil semua jadwal, tidak hanya yang Belum Setujui
+    $jadwal = Jadwal::with('matakuliah')->get();
 
-        return view('dekan.penyetujuan_jadwal', compact('jadwal'));
+    return view('dekan.penyetujuan_jadwal', compact('jadwal'));
     }
 
-    // Menyetujui jadwal oleh Dekan
-    public function approveJadwal(Request $request, $id)
+    public function dashKapro()
     {
-        // Validasi data input (meskipun hanya status yang diubah, tetap lakukan validasi)
-        $request->validate([
-            'status' => 'required|in:Setujui,Belum Setujui',
-        ]);
+        // Hitung status jadwal mata kuliah
+        $statusJadwal = Jadwal::where('status', 'Belum Setujui')->exists()
+            ? 'Belum Disetujui'
+            : 'Disetujui';
 
-        // Temukan jadwal berdasarkan ID
-        $jadwal = Jadwal::findOrFail($id);
+        // Data lain untuk dashboard
+        $irsTerverifikasi = 10; // Contoh jumlah data IRS Terverifikasi
+        $irsBelumTerverifikasi = 15; // Contoh jumlah data IRS Belum Terverifikasi
 
-        // Ubah status menjadi "Setujui"
-        $jadwal->status = 'Setujui';
-        $jadwal->save();
-
-        return redirect()->back()->with('success', 'Jadwal berhasil disetujui.');
+        return view('dashboard.dashkapro', compact('statusJadwal', 'irsTerverifikasi', 'irsBelumTerverifikasi'));
     }
 
 
-
-    // Menolak jadwal oleh Dekan
-    public function rejectJadwal(Request $request, $id)
+    public function approveAllJadwal()
     {
-        // Validasi data input
-        $request->validate([
-            'status' => 'required|in:Setujui,Belum Setujui',
-        ]);
+        Jadwal::where('status', 'Belum Setujui')
+            ->update(['status' => 'Setujui']);
 
-        // Temukan jadwal berdasarkan ID
-        $jadwal = Jadwal::findOrFail($id);
-
-        // Ubah status menjadi "Belum Setujui"
-        $jadwal->status = 'Belum Setujui';
-        $jadwal->save();
-
-        return redirect()->back()->with('success', 'Jadwal belum disetujui.');
+        return redirect()->back()->with('success', 'Semua jadwal berhasil disetujui');
     }
 
+    public function rejectAllJadwal()
+    {
+        Jadwal::where('status', 'Setujui')
+            ->update(['status' => 'Belum Setujui']);
+
+        return redirect()->back()->with('success', 'Semua jadwal ditolak');
+    }
 }

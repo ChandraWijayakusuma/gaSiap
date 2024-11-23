@@ -3,49 +3,113 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Jadwal Kuliah - gaSIAP</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <style>
-        .schedule-table {
-            width: 100%;
-            border-collapse: collapse;
-            table-layout: fixed;
-        }
-        .schedule-table th, .schedule-table td {
-            border: 1px solid #ddd;
-            text-align: center;
-            height: 60px;
-            padding: 4px;
-            position: relative;
-            vertical-align: top;
-        }
-        .draggable {
-            padding: 8px;
-            margin: 4px;
-            cursor: move;
-            background-color: #4caf50;
-            color: white;
-            border-radius: 4px;
-            text-align: center;
-        }
-        .dropzone {
-            min-height: 60px;
-        }
-        .filled-cell {
-            background-color: #e0f7fa;
-            border-color: #00897b;
-        }
-        .delete-btn {
-            margin-top: 5px;
-            padding: 2px 5px;
-            background-color: #dc3545;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            font-size: 12px;
-            cursor: pointer;
-        }
-    </style>
+    /* Header styles */
+    header {
+    background-color: #7c3aed;
+    color: #fff;
+    padding: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    }
+
+    .logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+    }
+
+    /* Schedule table styles */
+    .schedule-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+    }
+
+    .schedule-table th, .schedule-table td {
+    border: 1px solid #ddd;
+    text-align: center;
+    height: 60px;
+    padding: 4px;
+    position: relative;
+    vertical-align: top;
+    }
+
+    .draggable {
+    padding: 8px;
+    margin: 4px;
+    cursor: move;
+    background-color: #4caf50;
+    color: white;
+    border-radius: 4px;
+    text-align: center;
+    }
+
+    .dropzone {
+    min-height: 60px;
+    }
+
+    .filled-cell {
+    background-color: #e0f7fa;
+    border-color: #00897b;
+    }
+
+    .delete-btn {
+    margin-top: 5px;
+    padding: 2px 5px;
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 12px;
+    cursor: pointer;
+    }
+
+    /* Modal styles */
+    #roomModal {
+    z-index: 100;
+    }
+
+    .modal-content {
+    background-color: #fff;
+    padding: 1rem;
+    border-radius: 4px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    }
+
+    /* Button styles */
+    .btn {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    font-weight: 500;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+    }
+
+    .btn-primary {
+    background-color: #7c3aed;
+    color: #fff;
+    }
+
+    .btn-primary:hover {
+    background-color: #5c27c5;
+    }
+
+    .btn-danger {
+    background-color: #dc3545;
+    color: #fff;
+    }
+
+    .btn-danger:hover {
+    background-color: #c82333;
+    }
+</style>
 </head>
 <body class="bg-gray-100">
     <header class="bg-purple-700 p-4 flex justify-between items-center">
@@ -117,13 +181,14 @@
             </div>
         </div>
     </div>
+
     <div class="flex justify-end mt-4">
-        <form method="POST" action="{{ route('submit.jadwal') }}">
+        <form id="scheduleForm" method="POST" action="{{ route('submit.jadwal') }}">
             @csrf
-            <button class="bg-blue-500 text-white px-4 py-2 rounded">Ajukan Jadwal</button>
+            <input type="hidden" name="jadwal" id="jadwalInput">
+            <button type="button" onclick="submitSchedule()" class="bg-blue-500 text-white px-4 py-2 rounded">Ajukan Jadwal</button>
         </form>
     </div>
-
 
     <script>
     let selectedElement = null;
@@ -142,7 +207,7 @@
 
         zone.addEventListener('drop', (e) => {
             e.preventDefault();
-            dropzone = e.target;
+            dropzone = e.target.closest('.dropzone');
 
             const sks = parseInt(selectedElement.getAttribute('data-sks'), 10);
             const day = dropzone.getAttribute('data-day');
@@ -182,11 +247,11 @@
                     newItem.innerHTML += `
                         <div class="text-sm text-gray-600">(${room})</div>
                         <button class="delete-btn" onclick="removeMatakuliah(${day}, ${hour}, ${sks})">Hapus</button>`;
-                    newItem.style.height = `${sks * 60}px`; // Sesuaikan tinggi elemen
+                    newItem.style.height = `${sks * 60}px`;
                     nextCell.appendChild(newItem);
-                    nextCell.setAttribute('rowspan', sks); // Gabungkan sel
+                    nextCell.setAttribute('rowspan', sks);
                 } else {
-                    nextCell.style.display = 'none'; // Sembunyikan sel lainnya
+                    nextCell.style.display = 'none';
                 }
             }
         }
@@ -194,21 +259,19 @@
     }
 
     function removeMatakuliah(day, hour, sks) {
-    for (let i = 0; i < sks; i++) {
-        const cell = document.querySelector(`.dropzone[data-day="${day}"][data-hour="${hour + i}"]`);
-        if (cell) {
-            cell.classList.remove('filled-cell');
-            cell.style.display = ''; // Tampilkan kembali jika disembunyikan
-            cell.innerHTML = ''; // Kosongkan isi sel
+        for (let i = 0; i < sks; i++) {
+            const cell = document.querySelector(`.dropzone[data-day="${day}"][data-hour="${hour + i}"]`);
+            if (cell) {
+                cell.classList.remove('filled-cell');
+                cell.style.display = '';
+                cell.innerHTML = '';
 
-            // Jika ini adalah sel pertama, hapus atribut rowspan
-            if (i === 0) {
-                cell.removeAttribute('rowspan');
+                if (i === 0) {
+                    cell.removeAttribute('rowspan');
+                }
             }
         }
     }
-}
-
 
     function openModal() {
         document.getElementById('roomModal').classList.remove('hidden');
@@ -218,34 +281,60 @@
         document.getElementById('roomModal').classList.add('hidden');
     }
     
-    function saveSchedule(day, hour, matakuliahId, room) {
-        const data = {
-            day: day,
-            hour: hour,
-            matakuliah_id: matakuliahId,
-            room: room,
-            _token: "{{ csrf_token() }}"
+    function submitSchedule() {
+    const scheduledItems = [];
+    
+    document.querySelectorAll('.dropzone').forEach(cell => {
+        const matakuliah = cell.querySelector('[data-id]');
+        if (matakuliah) {
+            const room = matakuliah.textContent.match(/\((.*?)\)/)?.[1] || '';
+            scheduledItems.push({
+                hari: getHariFromNumber(cell.getAttribute('data-day')),
+                jam_mulai: cell.getAttribute('data-hour') + ':00',
+                jam_selesai: (parseInt(cell.getAttribute('data-hour')) + parseInt(matakuliah.getAttribute('data-sks'))) + ':00',
+                mata_kuliah: matakuliah.getAttribute('data-id'),
+                ruang: room
+            });
+        }
+    });
+
+    document.getElementById('jadwalInput').value = JSON.stringify(scheduledItems);
+    
+    fetch(document.getElementById('scheduleForm').action, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+        },
+        body: JSON.stringify({
+            jadwal: document.getElementById('jadwalInput').value
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert('Jadwal berhasil disimpan');
+            window.location.reload();
+        } else {
+            alert(data.message);
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Terjadi kesalahan saat menyimpan jadwal');
+    });
+}
+
+    function getHariFromNumber(number) {
+        const hariMap = {
+            '1': 'Senin',
+            '2': 'Selasa',
+            '3': 'Rabu',
+            '4': 'Kamis',
+            '5': 'Jumat'
         };
-
-        fetch("{{ route('submit.jadwal') }}", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(data)
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                alert("Jadwal berhasil disimpan.");
-            } else {
-                alert("Gagal menyimpan jadwal.");
-            }
-        })
-        .catch(error => console.error("Error:", error));
+        return hariMap[number] || '';
     }
-</script>
-
-
+    </script>
 </body>
 </html>

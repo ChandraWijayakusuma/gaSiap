@@ -9,24 +9,20 @@ class Jadwal extends Model
 {
     use HasFactory;
 
-    // Tentukan kolom-kolom yang dapat diisi (mass-assignable)
+    protected $table = 'jadwal';
+
     protected $fillable = [
-        'hari',            // Hari (Senin, Selasa, dst.)
-        'jam',             // Jam mulai
-        'matakuliah_id',   // Foreign key ke tabel matakuliah
-        'ruang_id',        // Foreign key ke tabel ruang (untuk ruangan)
-        'status',          // Status jadwal (Draft, Pending, Approved, Rejected)
+        'day', 'hour', 'hari', 'jam_mulai', 'jam_selesai', 
+        'matakuliah_id', 'room', 'ruangan', 'status'
     ];
 
-    // Relasi ke model Matakuliah
     public function matakuliah()
     {
-        return $this->belongsTo(Matakuliah::class, 'matakuliah_id'); // Setiap jadwal memiliki satu matakuliah
+        return $this->belongsTo(Matakuliah::class, 'matakuliah_id');
     }
 
-    // Relasi ke model Ruang
     public function ruang()
     {
-        return $this->belongsTo(Ruang::class, 'ruang_id'); // Setiap jadwal memiliki satu ruangan
+        return $this->belongsTo(Ruang::class, 'ruang_id');
     }
 }
