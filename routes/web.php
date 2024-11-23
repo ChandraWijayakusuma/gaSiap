@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DashboardDekanController;
 use App\Http\Controllers\LoginControl;
 use App\Http\Controllers\RuangController;
 use App\Http\Controllers\JadwalKuliahController;
@@ -27,14 +28,22 @@ Route::patch('/clear-prodi/{id}', [RuangController::class, 'clearProdi'])->name(
 Route::get('/pengajuan-ruang', [RuangController::class, 'showPengajuanRuang'])->name('rooms.pengajuan');
 Route::patch('/setujui-ruang/{id}', [RuangController::class, 'setujuiRuang'])->name('rooms.setujui');
 Route::patch('/setujui-semua-ruang', [RuangController::class, 'setujuiSemua'])->name('rooms.setujuiSemua');
+Route::get('/dashboard/BA', [RuangController::class, 'getStatusRuang'])->name('dashboard');
+
+
 
 // Route untuk jadwal kuliah
 Route::get('/jadwalkuliah', [JadwalKuliahController::class, 'showJadwal'])->name('jadwalkuliah'); // Tampilkan jadwal kuliah
 Route::post('/submit-jadwal', [JadwalKuliahController::class, 'submitJadwal'])->name('submit.jadwal'); // Ajukan jadwal
-Route::get('/dekan/jadwal/penyetujuan', [JadwalKuliahController::class, 'viewPengajuan'])->name('dekan.jadwal.penyetujuan'); // Halaman penyetujuan jadwal
-Route::patch('/approve-jadwal/{id}', [JadwalKuliahController::class, 'approveJadwal'])->name('approve.jadwal'); // Setujui jadwal
-Route::patch('/reject-jadwal/{id}', [JadwalKuliahController::class, 'rejectJadwal'])->name('reject.jadwal'); // Tolak jadwal
+Route::get('/dekan/jadwal/penyetujuan', [JadwalKuliahController::class, 'viewPengajuan'])->name('dekan.jadwal.penyetujuan');
 Route::get('/penyetujuan-jadwal', [JadwalKuliahController::class, 'viewPengajuan'])->name('dekan.jadwal.penyetujuan');
+Route::post('/approve-all-jadwal', [JadwalKuliahController::class, 'approveAllJadwal'])->name('approve.all.jadwal');
+Route::post('/reject-all-jadwal', [JadwalKuliahController::class, 'rejectAllJadwal'])->name('reject.all.jadwal');
+Route::get('/dashboard/dekan', [DashboardDekanController::class, 'index'])->name('dashboard.dekan');
+Route::get('/dekan/penyetujuan-jadwal', [JadwalKuliahController::class, 'penyetujuanJadwal'])->name('dekan.penyetujuan.jadwal');
+Route::get('/dashboard/kapro', [JadwalKuliahController::class, 'dashKapro'])->name('dashboard.kapro');
+
+
 
 // Route untuk logout
 Route::post('/logout', [LoginControl::class, 'logout'])->name('logout');

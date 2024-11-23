@@ -179,7 +179,7 @@
 </head>
 <body>
     <header class="header">
-        <a href="{{ route('dashboard') }}" class="logo">gaSIAP</a>
+        <a href="{{ route('dashboard.kapro') }}" class="logo">gaSIAP</a>
         <form method="POST" action="{{ route('logout') }}">
             @csrf
             <button type="submit" class="logout-btn">Logout</button>
@@ -227,7 +227,9 @@
                 <!-- Status Jadwal Mata Kuliah -->
                 <div class="status-jadwal">
                     <p class="status-item-label" style="margin-bottom: 0.5rem;">Status Jadwal Mata Kuliah</p>
-                    <p class="status-item-value verifikasi">Disetujui</p>
+                    <p class="status-item-value {{ $statusJadwal == 'Disetujui' ? 'verifikasi' : 'belum-verifikasi' }}">
+                        {{ $statusJadwal }}
+                    </p>
                 </div>
             </div>
         </div>

@@ -56,9 +56,10 @@
             padding: 0 1.5rem 1.5rem;
         }
 
+        /* Layout untuk bagian biodata dan status */
         .dashboard-cards {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
+            grid-template-columns: 1fr 1fr; /* Dua kolom: satu untuk biodata dan satu untuk status */
             gap: 1.5rem;
             margin-bottom: 1.5rem;
         }
@@ -118,7 +119,7 @@
 
         .status-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
+            grid-template-columns: repeat(2, 1fr); /* Status tetap dalam dua kolom */
             gap: 1rem;
             text-align: center;
         }
@@ -135,6 +136,15 @@
             color: #212529;
         }
 
+        .text-success {
+            color: #28a745;
+        }
+
+        .text-warning {
+            color: #ffc107;
+        }
+
+        /* Layout untuk tombol Jadwal Kuliah dan Ruang */
         .room-section {
             background: white;
             border-radius: 0.5rem;
@@ -162,6 +172,13 @@
         .room-section p {
             color: #6c757d;
         }
+
+        /* Layout untuk tombol Jadwal Kuliah dan Ruang (single column layout) */
+        .room-cards {
+            display: grid;
+            grid-template-columns: 1fr; /* Mengatur hanya satu kolom */
+            gap: 1.5rem;
+        }
     </style>
 </head>
 <body>
@@ -178,6 +195,7 @@
     </div>
 
     <main class="content">
+        <!-- Bagian Biodata dan Status -->
         <div class="dashboard-cards">
             <!-- Profile Card -->
             <div class="card profile-card">
@@ -203,32 +221,37 @@
                 <div class="status-grid">
                     <div>
                         <p class="status-item-label">Jadwal</p>
-                        <p class="status-item-value">Belum Verifikasi</p>
+                        <p class="status-item-value {{ $statusJadwal === 'Sudah Verifikasi' ? 'text-success' : 'text-warning' }}">
+                            {{ $statusJadwal }}
+                        </p>
                     </div>
                     <div>
                         <p class="status-item-label">Ruang</p>
-                        <p class="status-item-value">{{ $statusPengajuanRuang ?? 'Belum Verifikasi' }}</p>
+                        <p class="status-item-value {{ $statusRuang === 'Sudah Verifikasi' ? 'text-success' : 'text-warning' }}">
+                            {{ $statusRuang }}
+                        </p>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- New Sections for Jadwal Kuliah and Ruang -->
-        <a href="{{ route('dekan.jadwal.penyetujuan') }}" class="room-section">
-            <img src="{{ asset('calan.png') }}" alt="Jadwal Icon">
-            <div>
-                <h2>JADWAL KULIAH</h2>
-                <p>Verifikasi Jadwal Kuliah</p>
-            </div>
-        </a>
-
-        <a href="{{ route('rooms.pengajuan') }}" class="room-section">
-            <img src="{{ asset('house.png') }}" alt="Ruang Icon">
-            <div>
-                <h2>RUANG</h2>
-                <p>Verifikasi Ketersediaan Ruang dan Kuota Ruang</p>
-            </div>
-        </a>
+        <!-- Bagian Tombol Jadwal Kuliah dan Ruang -->
+        <div class="room-cards">
+            <a href="{{ route('dekan.jadwal.penyetujuan') }}" class="room-section">
+                <img src="{{ asset('calan.png') }}" alt="Jadwal Icon">
+                <div>
+                    <h2>JADWAL KULIAH</h2>
+                    <p>Verifikasi Jadwal Kuliah</p>
+                </div>
+            </a>
+            <a href="{{ route('rooms.pengajuan') }}" class="room-section">
+                <img src="{{ asset('house.png') }}" alt="Ruang Icon">
+                <div>
+                    <h2>RUANG</h2>
+                    <p>Verifikasi Ketersediaan Ruang dan Kuota Ruang</p>
+                </div>
+            </a>
+        </div>
     </main>
 </body>
 </html>

@@ -9,6 +9,18 @@ class Matakuliah extends Model
 {
     use HasFactory;
 
-    protected $table = 'matakuliah'; // Nama tabel
-    protected $fillable = ['nama_matakuliah', 'sks']; // Kolom yang boleh diisi
+    protected $table = 'matakuliah'; // Pastikan nama tabel sudah benar
+
+    protected $fillable = [
+        'kode_matakuliah', 
+        'nama_matakuliah', 
+        'prodi', 
+        'sks', 
+        'deskripsi',
+    ];
+
+    public function jadwal()
+    {
+        return $this->hasMany(Jadwal::class, 'matakuliah_id');
+    }
 }
