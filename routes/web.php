@@ -4,6 +4,7 @@ use App\Http\Controllers\DashboardDekanController;
 use App\Http\Controllers\LoginControl;
 use App\Http\Controllers\RuangController;
 use App\Http\Controllers\JadwalKuliahController; // Tambahkan ini untuk jadwalkuliah
+use App\Http\Controllers\RegistrasiController;
 use Illuminate\Support\Facades\Route;
 
 // Route untuk halaman login
