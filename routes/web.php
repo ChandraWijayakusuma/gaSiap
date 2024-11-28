@@ -1,16 +1,16 @@
 <?php
 
+use App\Http\Controllers\DashboardDekanController;
 use App\Http\Controllers\LoginControl;
 use App\Http\Controllers\RuangController;
 use App\Http\Controllers\JadwalKuliahController; // Tambahkan ini untuk jadwalkuliah
-use App\Http\Controllers\RegistrasiController;
 use Illuminate\Support\Facades\Route;
 
 // Route untuk halaman login
 Route::get('/login', [LoginControl::class, 'showLoginForm'])->name('login');
 Route::post('/login', [LoginControl::class, 'login'])->name('login.process');
 
-// Route untuk dashboard berdasarkan role tanpa middleware
+// Route untuk dashboard berdasarkan role
 Route::get('/dashboard', [LoginControl::class, 'dashboard'])->name('dashboard');
 Route::get('/dashboard/dekan', [LoginControl::class, 'dashDekan'])->name('dashboard.dekan');
 Route::get('/dashboard/BA', [LoginControl::class, 'dashBA'])->name('dashboard.ba');
@@ -18,9 +18,6 @@ Route::get('/dashboard/kapro', [LoginControl::class, 'dashKapro'])->name('dashbo
 Route::get('/dashboard/user', [LoginControl::class, 'dashUser'])->name('dashboard.user');
 Route::get('/dashboard/dosen', [LoginControl::class, 'dashDosen'])->name('dashboard.dosen');
 Route::get('/dashboard/mahasiswa', [LoginControl::class, 'dashMahasiswa'])->name('dashboard.mahasiswa');
-
-// Route untuk halaman jadwal kuliah
-Route::get('/jadwalkuliah', [JadwalKuliahController::class, 'index'])->name('jadwalkuliah'); // Tambahkan route untuk jadwal kuliah
 
 // Route untuk halaman makeruang dan pengelolaan ruangan
 Route::get('/makeruang', [RuangController::class, 'create'])->name('makeruang');
@@ -31,8 +28,21 @@ Route::patch('/clear-prodi/{id}', [RuangController::class, 'clearProdi'])->name(
 Route::get('/pengajuan-ruang', [RuangController::class, 'showPengajuanRuang'])->name('rooms.pengajuan');
 Route::patch('/setujui-ruang/{id}', [RuangController::class, 'setujuiRuang'])->name('rooms.setujui');
 Route::patch('/setujui-semua-ruang', [RuangController::class, 'setujuiSemua'])->name('rooms.setujuiSemua');
-Route::get('/dashboard/dekan', [RuangController::class, 'dashDekan'])->name('dashboard.dekan');
-Route::get('/dashboard/BA', [RuangController::class, 'getStatusRuang'])->name('dashboard.ba');
+
+
+
+
+// Route untuk jadwal kuliah
+Route::get('/jadwalkuliah', [JadwalKuliahController::class, 'showJadwal'])->name('jadwalkuliah'); // Tampilkan jadwal kuliah
+Route::post('/submit-jadwal', [JadwalKuliahController::class, 'submitJadwal'])->name('submit.jadwal'); // Ajukan jadwal
+Route::get('/dekan/jadwal/penyetujuan', [JadwalKuliahController::class, 'viewPengajuan'])->name('dekan.jadwal.penyetujuan');
+Route::get('/penyetujuan-jadwal', [JadwalKuliahController::class, 'viewPengajuan'])->name('dekan.jadwal.penyetujuan');
+Route::post('/approve-all-jadwal', [JadwalKuliahController::class, 'approveAllJadwal'])->name('approve.all.jadwal');
+Route::post('/reject-all-jadwal', [JadwalKuliahController::class, 'rejectAllJadwal'])->name('reject.all.jadwal');
+Route::get('/dashboard/dekan', [DashboardDekanController::class, 'index'])->name('dashboard.dekan');
+Route::get('/dekan/penyetujuan-jadwal', [JadwalKuliahController::class, 'penyetujuanJadwal'])->name('dekan.penyetujuan.jadwal');
+Route::get('/dashboard/kapro', [JadwalKuliahController::class, 'dashKapro'])->name('dashboard.kapro');
+
 
 //Route untuk halaman Registrasi Akademik
 Route::get('/registrasi', [RegistrasiController::class, 'index'])->name('registrasi');

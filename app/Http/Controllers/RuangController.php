@@ -119,7 +119,7 @@ class RuangController extends Controller
             : 'Disetujui';
 
         // Kembalikan data ke view dashboard BA
-        return view('dashboard.dashba', compact('totalKelas', 'kelasTerisi', 'kelasTidakTerisi', 'statusPengajuan'));
+        return  compact('totalKelas', 'kelasTerisi', 'kelasTidakTerisi', 'statusPengajuan');
     }
 
     // Mendapatkan status ruang untuk tampilan dashboard Dekan
