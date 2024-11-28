@@ -177,6 +177,18 @@
             color: inherit; /* Warna teks mengikuti warna default */
         }
 
+        .room-section2 {
+            background: white;
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            text-decoration: none; /* Hilangkan underline pada tautan */
+            color: inherit; /* Warna teks mengikuti warna default */
+        }
+
         .room-icon {
             width: 48px;
             height: 48px;
@@ -271,9 +283,9 @@
                 </div>
             </div>
         </div>
-
+        
         <!-- Registrasi Akademik as a clickable link -->
-        <a href="{{ route('makeruang') }}" class="room-section">
+        <a href="{{ route('registrasi') }}" class="room-section">
             <div class="room-icon">
                 <img src="{{ asset('User.png') }}" alt="Room Icon">
             </div>
@@ -284,7 +296,7 @@
         </a>
 
         <!-- Akademik as a clickable link -->
-        <a href="{{ route('makeruang') }}" class="room-section">
+        <a href="{{ route('registrasi') }}" class="room-section2">
             <div class="room-icon">
                 <img src="{{ asset('Graduation Cap.png') }}" alt="Room Icon">
             </div>

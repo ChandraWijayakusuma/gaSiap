@@ -3,6 +3,7 @@
 use App\Http\Controllers\LoginControl;
 use App\Http\Controllers\RuangController;
 use App\Http\Controllers\JadwalKuliahController; // Tambahkan ini untuk jadwalkuliah
+use App\Http\Controllers\RegistrasiController;
 use Illuminate\Support\Facades\Route;
 
 // Route untuk halaman login
@@ -33,6 +34,9 @@ Route::patch('/setujui-semua-ruang', [RuangController::class, 'setujuiSemua'])->
 Route::get('/dashboard/dekan', [RuangController::class, 'dashDekan'])->name('dashboard.dekan');
 Route::get('/dashboard/BA', [RuangController::class, 'getStatusRuang'])->name('dashboard.ba');
 
+//Route untuk halaman Registrasi Akademik
+Route::get('/registrasi', [RegistrasiController::class, 'index'])->name('registrasi');
+Route::post('/registrasi/update', [RegistrasiController::class, 'updateStatus'])->name('registrasi.update');
 
 // Route untuk logout
 Route::post('/logout', [LoginControl::class, 'logout'])->name('logout');
