@@ -42,6 +42,8 @@ Route::post('/reject-all-jadwal', [JadwalKuliahController::class, 'rejectAllJadw
 Route::get('/dashboard/dekan', [DashboardDekanController::class, 'index'])->name('dashboard.dekan');
 Route::get('/dekan/penyetujuan-jadwal', [JadwalKuliahController::class, 'penyetujuanJadwal'])->name('dekan.penyetujuan.jadwal');
 Route::get('/dashboard/kapro', [JadwalKuliahController::class, 'dashKapro'])->name('dashboard.kapro');
+Route::get('/lihat-jadwal', [JadwalKuliahController::class, 'lihatJadwal'])->name('lihat.jadwal');
+
 
 
 

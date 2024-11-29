@@ -9,105 +9,105 @@
     <style>
     /* Header styles */
     header {
-    background-color: #7c3aed;
-    color: #fff;
-    padding: 1rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+        background-color: #7c3aed;
+        color: #fff;
+        padding: 1rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
     }
 
     .logo {
-    font-size: 1.5rem;
-    font-weight: bold;
+        font-size: 1.5rem;
+        font-weight: bold;
     }
 
     /* Schedule table styles */
     .schedule-table {
-    width: 100%;
-    border-collapse: collapse;
-    table-layout: fixed;
+        width: 100%;
+        border-collapse: collapse;
+        table-layout: fixed;
     }
 
     .schedule-table th, .schedule-table td {
-    border: 1px solid #ddd;
-    text-align: center;
-    height: 60px;
-    padding: 4px;
-    position: relative;
-    vertical-align: top;
+        border: 1px solid #ddd;
+        text-align: center;
+        height: 60px;
+        padding: 4px;
+        position: relative;
+        vertical-align: top;
     }
 
     .draggable {
-    padding: 8px;
-    margin: 4px;
-    cursor: move;
-    background-color: #4caf50;
-    color: white;
-    border-radius: 4px;
-    text-align: center;
+        padding: 8px;
+        margin: 4px;
+        cursor: move;
+        background-color: #4caf50;
+        color: white;
+        border-radius: 4px;
+        text-align: center;
     }
 
     .dropzone {
-    min-height: 60px;
+        min-height: 60px;
     }
 
     .filled-cell {
-    background-color: #e0f7fa;
-    border-color: #00897b;
+        background-color: #e0f7fa;
+        border-color: #00897b;
     }
 
     .delete-btn {
-    margin-top: 5px;
-    padding: 2px 5px;
-    background-color: #dc3545;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    font-size: 12px;
-    cursor: pointer;
+        margin-top: 5px;
+        padding: 2px 5px;
+        background-color: #dc3545;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        font-size: 12px;
+        cursor: pointer;
     }
 
     /* Modal styles */
     #roomModal {
-    z-index: 100;
+        z-index: 100;
     }
 
     .modal-content {
-    background-color: #fff;
-    padding: 1rem;
-    border-radius: 4px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+        background-color: #fff;
+        padding: 1rem;
+        border-radius: 4px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
     }
 
     /* Button styles */
     .btn {
-    display: inline-block;
-    padding: 0.5rem 1rem;
-    font-size: 1rem;
-    font-weight: 500;
-    text-align: center;
-    text-decoration: none;
-    border-radius: 4px;
-    transition: background-color 0.3s ease;
+        display: inline-block;
+        padding: 0.5rem 1rem;
+        font-size: 1rem;
+        font-weight: 500;
+        text-align: center;
+        text-decoration: none;
+        border-radius: 4px;
+        transition: background-color 0.3s ease;
     }
 
     .btn-primary {
-    background-color: #7c3aed;
-    color: #fff;
+        background-color: #7c3aed;
+        color: #fff;
     }
 
     .btn-primary:hover {
-    background-color: #5c27c5;
+        background-color: #5c27c5;
     }
 
     .btn-danger {
-    background-color: #dc3545;
-    color: #fff;
+        background-color: #dc3545;
+        color: #fff;
     }
 
     .btn-danger:hover {
-    background-color: #c82333;
+        background-color: #c82333;
     }
 </style>
 </head>
@@ -121,7 +121,18 @@
     </header>
 
     <div class="container mx-auto px-6 py-4">
-        <h2 class="text-2xl font-semibold text-gray-700 mb-4">Jadwal Kuliah</h2>
+        <h2 class="text-2xl font-semibold text-gray-700 mb-4 flex justify-between items-center">
+            <span>Jadwal Kuliah</span>
+            <!-- Tombol Lihat Hasil Jadwal, disembunyikan pada awalnya -->
+            @if ($jadwal->isNotEmpty()) 
+                <!-- Tombol hanya muncul jika ada data jadwal -->
+                <div class="flex justify-end mt-4">
+                    <a href="{{ route('lihat.jadwal') }}" class="bg-purple-700 text-white px-4 py-2 rounded">
+                        Lihat Hasil Jadwal
+                    </a>
+                </div>
+            @endif
+        </h2>
         
         <div class="flex">
             <!-- Jadwal Table -->
@@ -244,8 +255,8 @@
                 if (i === 0) {
                     const newItem = selectedElement.cloneNode(true);
                     newItem.classList.remove('draggable');
-                    newItem.innerHTML += `
-                        <div class="text-sm text-gray-600">(${room})</div>
+                    newItem.innerHTML += 
+                        `<div class="text-sm text-gray-600">(${room})</div>
                         <button class="delete-btn" onclick="removeMatakuliah(${day}, ${hour}, ${sks})">Hapus</button>`;
                     newItem.style.height = `${sks * 60}px`;
                     nextCell.appendChild(newItem);
@@ -282,48 +293,51 @@
     }
     
     function submitSchedule() {
-    const scheduledItems = [];
-    
-    document.querySelectorAll('.dropzone').forEach(cell => {
-        const matakuliah = cell.querySelector('[data-id]');
-        if (matakuliah) {
-            const room = matakuliah.textContent.match(/\((.*?)\)/)?.[1] || '';
-            scheduledItems.push({
-                hari: getHariFromNumber(cell.getAttribute('data-day')),
-                jam_mulai: cell.getAttribute('data-hour') + ':00',
-                jam_selesai: (parseInt(cell.getAttribute('data-hour')) + parseInt(matakuliah.getAttribute('data-sks'))) + ':00',
-                mata_kuliah: matakuliah.getAttribute('data-id'),
-                ruang: room
-            });
-        }
-    });
+        const scheduledItems = [];
+        
+        document.querySelectorAll('.dropzone').forEach(cell => {
+            const matakuliah = cell.querySelector('[data-id]');
+            if (matakuliah) {
+                const room = matakuliah.textContent.match(/\((.*?)\)/)?.[1] || '';
+                scheduledItems.push({
+                    hari: getHariFromNumber(cell.getAttribute('data-day')),
+                    jam_mulai: cell.getAttribute('data-hour') + ':00',
+                    jam_selesai: (parseInt(cell.getAttribute('data-hour')) + parseInt(matakuliah.getAttribute('data-sks'))) + ':00',
+                    mata_kuliah: matakuliah.getAttribute('data-id'),
+                    ruang: room
+                });
+            }
+        });
 
-    document.getElementById('jadwalInput').value = JSON.stringify(scheduledItems);
-    
-    fetch(document.getElementById('scheduleForm').action, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
-        },
-        body: JSON.stringify({
-            jadwal: document.getElementById('jadwalInput').value
+        document.getElementById('jadwalInput').value = JSON.stringify(scheduledItems);
+        
+        fetch(document.getElementById('scheduleForm').action, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+            },
+            body: JSON.stringify({
+                jadwal: document.getElementById('jadwalInput').value
+            })
         })
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            alert('Jadwal berhasil disimpan');
-            window.location.reload();
-        } else {
-            alert(data.message);
-        }
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        alert('Terjadi kesalahan saat menyimpan jadwal');
-    });
-}
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('Jadwal berhasil disimpan');
+                window.location.reload(); // Reload the page to show the updated content
+
+                // Tampilkan tombol "Lihat Hasil Jadwal" setelah jadwal berhasil disubmit
+                document.getElementById('lihatJadwalBtn').classList.remove('hidden');
+            } else {
+                alert(data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Terjadi kesalahan saat menyimpan jadwal');
+        });
+    }
 
     function getHariFromNumber(number) {
         const hariMap = {
