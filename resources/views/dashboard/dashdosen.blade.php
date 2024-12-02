@@ -168,7 +168,7 @@
         .room-icon {
             width: 48px;
             height: 48px;
-            background-color: #e9ecef;
+            background-color: white;
             border-radius: 0.5rem;
             display: flex;
             align-items: center;
@@ -214,15 +214,15 @@
             <!-- Profile Card -->
             <div class="card profile-card">
                 <div class="profile-image">
-                    <img src="{{ asset('paruq.jpg') }}" alt="Foto Profil">
+                    <img src="{{ asset('thanos.jpg') }}" alt="Foto Profil">
                 </div>
                 <div class="profile-info">
-                    <h2 class="profile-title">Bagian Akademik</h2>
-                    <p>Erje Pitu</p>
-                    <p>12023245067807</p>
-                    <p>alma.s@edumind.ac.id</p>
-                    <p>almasiumintak@gmail.com</p>
-                    <p>081924667834</p>
+                    <h2 class="profile-title">Pembimbing Akademik</h2>
+                    <p>Haji Thanos</p>
+                    <p>120232450320123</p>
+                    <p>thanos@lecturer.ac.id</p>
+                    <p>h.thanos@gmail.com</p>
+                    <p>081718239848</p>
                     <hr class="profile-divider">
                     <p>Fakultas Petir dan Ilmu Hitam</p>
                     <p>Departemen Ilmu Petir</p>
@@ -231,31 +231,31 @@
 
             <!-- Status Card -->
             <div class="card status-card">
-                <h2>Status Ruang</h2>
+                <h2>Status Akademik</h2>
 
                 <!-- Status dari Database -->
                 <div class="status-grid">
                     <div>
-                        <p class="status-item-label">Total Kelas</p>
+                        <p class="status-item-label">Status Pengajar</p>
                     </div>
                     <div>
-                        <p class="status-item-label">Kelas Terisi</p>
+                        <p class="status-item-label">Dokumen Verified</p>
                     </div>
                     <div>
-                        <p class="status-item-label">Kelas Tidak Terisi</p>
+                        <p class="status-item-label">Jumlah Dokumen</p>
                     </div>
                 </div>
             </div>
         </div>
 
         <!-- Room Section as a clickable link -->
-        <a href="{{ route('makeruang') }}" class="room-section">
+        <a href="{{ route('rooms.pengajuan') }}" class="room-section">
             <div class="room-icon">
-                <img src="{{ asset('house.png') }}" alt="Room Icon">
+                <img src="{{ asset('document.png') }}" alt="Room Icon">
             </div>
             <div class="room-info">
-                <h2>RUANG</h2>
-                <p>Pengaturan Ketersediaan Ruang dan Kuota Ruang</p>
+                <h2>Verifikasi IRS</h2>
+                <p>Verifikasi IRS</p>
             </div>
         </a>
     </main>

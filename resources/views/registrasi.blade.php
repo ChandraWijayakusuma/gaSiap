@@ -140,7 +140,7 @@
         .room-icon {
             width: 60px;
             height: 60px;
-            background-color: #e9ecef;
+            background-color: white;
             border-radius: 0.5rem;
             display: flex;
             align-items: center;
@@ -192,7 +192,7 @@
                 </div>
                 @csrf
                 <h2>Cuti</h2>
-                <p>Menghentikan kuliah sementara untuk semester ini tanpa kehilangan status sebagai mahasiswa Undip.</p>
+                <p>Menghentikan kuliah sementara untuk semester ini tanpa kehilangan status sebagai mahasiswa Universitas Diponegoro.</p>
                 <hr class="profile-divider">
                 <button type="submit" name="status" value="Cuti" class="cuti-btn">Cuti</button>
             </form>
