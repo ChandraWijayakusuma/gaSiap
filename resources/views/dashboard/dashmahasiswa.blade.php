@@ -259,19 +259,18 @@
                     <div class="status-card">
                         <h2>Status Akademik</h2>
                         <p>Dosen wali: Thor Odinson, S.IH., M.Pet.<br>(NIP: 192020307862024)</p>
-                    
+                        <br>
+                        <br>
                         <div class="status-info">
                             <div class="status-grid">
                                 <div>
                                     <p>Semester Akademik Sekarang</p>
                                     <h2>2025/2026 Genap</h2>
                                 </div>
-                                <span class="divider">|</span>
                                 <div>
                                     <p>Semester Studi</p>
                                     <h2>2</h2>
                                 </div>
-                                <span class="divider">|</span>
                                 <div>
                                     <p>Status Akademik</p>
                                     <h2>Aktif</h2>
@@ -285,6 +284,7 @@
         </div>
         
         <!-- Registrasi Akademik as a clickable link -->
+        <div class="room-cards">
         <a href="{{ route('registrasi') }}" class="room-section">
             <div class="room-icon">
                 <img src="{{ asset('User.png') }}" alt="Room Icon">
@@ -294,17 +294,20 @@
                 <p>Belum Registrasi</p>
             </div>
         </a>
-
+        <br>
+        <br>
         <!-- Akademik as a clickable link -->
-        <a href="{{ route('registrasi') }}" class="room-section2">
-            <div class="room-icon">
-                <img src="{{ asset('Graduation Cap.png') }}" alt="Room Icon">
-            </div>
-            <div class="room-info">
-                <h2>Akademik</h2>
-                <p>TA 2024/2025 Ganjil</p>
-            </div>
-        </a>
+ <!-- Akademik as a clickable link -->
+            <a href="{{ route('buat.irs') }}" class="room-section2">
+                <div class="room-icon">
+                    <img src="{{ asset('Graduation Cap.png') }}" alt="Room Icon">
+                </div>
+                <div class="room-info">
+                    <h2>Akademik</h2>
+                    <p>TA 2024/2025 Ganjil</p>
+                </div>
+            </a>
+        </div>
     </main>
 </body>
 </html>
