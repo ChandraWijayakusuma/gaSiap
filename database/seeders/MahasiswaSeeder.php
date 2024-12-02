@@ -16,17 +16,20 @@ class MahasiswaSeeder extends Seeder
     {
         DB::table('mahasiswas')->insert([
             [
-                'nama' => 'Andi',
-                'status' => 'aktif',
                 'created_at' => now(),
                 'updated_at' => now(),
+                'nama' => 'Andi',
+                'semester' => '1',
+                'status' => 'aktif',
             ],
             [
-                'nama' => 'Budi',
-                'status' => 'cuti',
                 'created_at' => now(),
                 'updated_at' => now(),
+                'nama' => 'Budi',
+                'semester' => '1', 
+                'status' => 'cuti',
             ],
         ]);
+        
     }
 }

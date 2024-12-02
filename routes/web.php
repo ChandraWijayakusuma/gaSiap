@@ -1,12 +1,13 @@
 <?php
 
+use App\Http\Controllers\BuatIRSController;
 use App\Http\Controllers\DashboardDekanController;
 use App\Http\Controllers\LoginControl;
 use App\Http\Controllers\RuangController;
 use App\Http\Controllers\RegistrasiController;
 use App\Http\Controllers\JadwalKuliahController; // Tambahkan ini untuk jadwalkuliah
-use App\Http\Controllers\BuatIRSController;
 use App\Http\Controllers\DashboardMahasiswaController;
+use App\Http\Controllers\MataKuliahController;
 use Illuminate\Support\Facades\Route;
 
 // Route untuk halaman login
@@ -44,18 +45,15 @@ Route::get('/dekan/penyetujuan-jadwal', [JadwalKuliahController::class, 'penyetu
 Route::get('/dashboard/kapro', [JadwalKuliahController::class, 'dashKapro'])->name('dashboard.kapro');
 Route::get('/lihat-jadwal', [JadwalKuliahController::class, 'lihatJadwal'])->name('lihat.jadwal');
 
-
-
 //Route untuk Registrasi Akademik
 Route::get('/registrasi', [RegistrasiController::class, 'index'])->name('registrasi');
 Route::post('/registrasi/update', [RegistrasiController::class, 'updateStatus'])->name('registrasi.update');
 Route::get('/dashboard/mahasiswa', [DashboardMahasiswaController::class, 'index'])->name('dashboard.mahasiswa');
 
-// Routes for the "Buat IRS" functionality  
-Route::middleware('auth')->group(function () {  
-    Route::get('/buat-irs', [BuatIRSController::class, 'index'])->name('buat.irs'); // Display the form  
-    Route::post('/buat-irs', [BuatIRSController::class, 'store'])->name('buat.irs.store'); // Submit the form  
-});  
+Route::middleware(['auth'])->group(function () {
+    Route::get('/buat-irs', [BuatIRSController::class, 'createIRS'])->name('buat.irs');
+    Route::post('/submit-irs', [BuatIRSController::class, 'submitIRS'])->name('submit.irs');
+});
 
 // Route untuk logout
 Route::post('/logout', [LoginControl::class, 'logout'])->name('logout');
