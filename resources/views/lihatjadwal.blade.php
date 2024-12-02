@@ -8,7 +8,7 @@
    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
    <style>
        /* Header styles */
-       .header {
+        .header {
             background-color: #4a148c;
             padding: 1rem 1.5rem;
             display: flex;
