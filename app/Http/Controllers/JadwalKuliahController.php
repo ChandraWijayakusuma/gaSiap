@@ -117,4 +117,18 @@ class JadwalKuliahController extends Controller
 
         return redirect()->back()->with('success', 'Semua jadwal ditolak');
     }
+    public function lihatJadwal()
+    {
+        // Ambil semua data jadwal dan relasi matakuliah
+        $jadwal = Jadwal::with('matakuliah')->get();
+
+        // Tentukan status jadwal: apakah ada yang belum disetujui
+        $statusJadwal = Jadwal::where('status', 'Belum Setujui')->exists()
+            ? 'Belum Disetujui'
+            : 'Disetujui';
+
+        // Kirim data ke view 'lihatjadwal'
+        return view('lihatjadwal', compact('jadwal', 'statusJadwal'));
+    }
+
 }

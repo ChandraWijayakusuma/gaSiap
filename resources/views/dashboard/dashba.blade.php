@@ -214,7 +214,7 @@
             <!-- Profile Card -->
             <div class="card profile-card">
                 <div class="profile-image">
-                    <img src="{{ asset('paruq.jpg') }}" alt="Foto Profil">
+                    <img src="{{ asset('pitu.jpg') }}" alt="Foto Profil">
                 </div>
                 <div class="profile-info">
                     <h2 class="profile-title">Bagian Akademik</h2>
