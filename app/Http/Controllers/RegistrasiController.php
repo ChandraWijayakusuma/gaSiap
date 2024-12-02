@@ -36,4 +36,12 @@ public function updateStatus(Request $request)
     // Jika mahasiswa tidak ditemukan
     return redirect()->route('registrasi')->with('error', 'Mahasiswa tidak ditemukan.');
 }
+
+public function dashMahasiswa() {
+    $statusRegistrasi = Mahasiswa::where('status', 'Aktif')->exist()
+        ? 'Aktif'
+        : 'Cuti';
+
+        return view('dashboard.dashmahasiswa', compact('statusRegistrasi'));
+}
 }

@@ -15,15 +15,20 @@
             }
         }
     </script>
+    <style>
+        .header {
+            background-color: #4a148c;
+            padding: 1rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+    </style>
 </head>
 <body class="bg-gray-100">
 
-<header class="bg-purple-700 p-4 flex justify-between items-center">
+<header class="header">
     <a href="{{ route('dashboard') }}" class="text-white text-2xl font-bold">gaSIAP</a>
-    <form method="POST" action="{{ route('logout') }}">
-        @csrf
-        <button type="submit" class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded">Logout</button>
-    </form>
 </header>
 
 <div class="container mx-auto px-6 py-4">

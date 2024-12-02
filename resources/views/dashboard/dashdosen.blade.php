@@ -56,6 +56,18 @@
             padding: 0 1.5rem 1.5rem;
         }
 
+        .content p {
+            text-align: left;
+        }
+
+        .status {
+            padding: 1 1.5rem 2rem;
+        }
+
+        .status p {
+            text-align: center;
+        }
+
         .dashboard-cards {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -111,9 +123,25 @@
             margin: 1rem 0;
         }
 
-        .status-card h2 {
-            font-size: 1.25rem;
+        .status-card {
+            padding: 3rem;
+            background-color: white;
+            border-radius: 0.5rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .status-title {
+            font-size: 1.5rem;
+            font-weight: 600;
             margin-bottom: 1rem;
+            color: #343a40;
+        }
+
+        .status-dosen {
+            font-size: 1rem;
+            color: #6c757d;
+            margin-bottom: 1.5rem;
+            line-height: 1.5;
         }
 
         .status-grid {
@@ -123,37 +151,45 @@
             text-align: center;
         }
 
+        .status-item {
+            padding: 0.5rem;
+        }
+
         .status-item-label {
+            font-size: 1rem;
             color: #6c757d;
-            font-weight: 600;
             margin-bottom: 0.5rem;
+            font-weight: 600;
         }
 
         .status-item-value {
-            font-size: 1.5rem;
+            font-size: 1.25rem;
             font-weight: 700;
             color: #212529;
         }
 
-        .status-pengajuan {
-            font-weight: bold;
-            text-align: center;
-            padding: 0.5rem;
-            border-radius: 5px;
-            margin-top: 1rem;
-        }
-
-        .status-pengajuan.disetujui {
+        .text-success {
             color: #28a745;
-            background-color: #d4edda;
         }
 
-        .status-pengajuan.belum-disetujui {
+        .text-warning {
             color: #dc3545;
-            background-color: #f8d7da;
         }
+
 
         .room-section {
+            background: white;
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            text-decoration: none; /* Hilangkan underline pada tautan */
+            color: inherit; /* Warna teks mengikuti warna default */
+        }
+
+        .room-section2 {
             background: white;
             border-radius: 0.5rem;
             padding: 1.5rem;
@@ -219,10 +255,10 @@
                 <div class="profile-info">
                     <h2 class="profile-title">Pembimbing Akademik</h2>
                     <p>Haji Thanos</p>
-                    <p>120232450320123</p>
+                    <p>158395020245</p>
                     <p>thanos@lecturer.ac.id</p>
                     <p>h.thanos@gmail.com</p>
-                    <p>081718239848</p>
+                    <p>081388881363</p>
                     <hr class="profile-divider">
                     <p>Fakultas Petir dan Ilmu Hitam</p>
                     <p>Departemen Ilmu Petir</p>
@@ -230,34 +266,38 @@
             </div>
 
             <!-- Status Card -->
-            <div class="card status-card">
-                <h2>Status Akademik</h2>
-
-                <!-- Status dari Database -->
-                <div class="status-grid">
-                    <div>
-                        <p class="status-item-label">Status Pengajar</p>
-                    </div>
-                    <div>
-                        <p class="status-item-label">Dokumen Verified</p>
-                    </div>
-                    <div>
-                        <p class="status-item-label">Jumlah Dokumen</p>
+            <main class="status">
+                <div class="card status-card">
+                    <h2 class="status-title">Status Pembimbing Akademik</h2>
+                    <div class="status-grid">
+                        <div class="status-item">
+                            <p class="status-item-label">Status Pengajar</p>
+                            <p class="status-item-value">Aktif</p>
+                        </div>
+                        <div class="status-item">
+                            <p class="status-item-label">Dokumen Verified</p>
+                            <p class="status-item-value">25</p>
+                        </div>
+                        <div class="status-item">
+                            <p class="status-item-label">Jumlah Dokumen</p>
+                            <p class="status-item-value">100</p>
+                        </div>
                     </div>
                 </div>
-            </div>
+                    </div>
+        
+        <!-- Registrasi Akademik as a clickable link -->
+        <div class="room-cards">
+            <a href="{{ route('registrasi') }}" class="room-section">
+                <div class="room-icon">
+                    <img src="{{ asset('document.png') }}" alt="Room Icon">
+                </div>
+                <div class="room-info">
+                    <h2>IRS</h2>
+                    <p>Verifikasi IRS</p>
+                </div>
+            </a>
         </div>
-
-        <!-- Room Section as a clickable link -->
-        <a href="{{ route('rooms.pengajuan') }}" class="room-section">
-            <div class="room-icon">
-                <img src="{{ asset('document.png') }}" alt="Room Icon">
-            </div>
-            <div class="room-info">
-                <h2>Verifikasi IRS</h2>
-                <p>Verifikasi IRS</p>
-            </div>
-        </a>
     </main>
 </body>
 </html>
