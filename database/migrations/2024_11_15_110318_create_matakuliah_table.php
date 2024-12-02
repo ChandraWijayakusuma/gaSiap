@@ -19,6 +19,7 @@ class CreateMatakuliahTable extends Migration
             $table->string('nama_matakuliah', 100);
             $table->string('prodi', 100);
             $table->integer('sks')->unsigned();
+            $table->integer('semester');
             $table->text('deskripsi')->nullable();
             $table->timestamps();
         });

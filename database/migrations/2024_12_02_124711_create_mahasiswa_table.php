@@ -18,6 +18,7 @@ class CreateMahasiswaTable extends Migration
             $table->string('nama'); // Tambahkan kolom nama atau kolom lain sesuai kebutuhan
             $table->enum('status', ['aktif', 'cuti'])->default('aktif'); // Kolom status
             $table->timestamps();
+            $table->string('semester');
         });
     }
 
