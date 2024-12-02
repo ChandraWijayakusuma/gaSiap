@@ -218,10 +218,10 @@
                 </div>
                 <div class="profile-info">
                     <h2 class="profile-title">Bagian Akademik</h2>
-                    <p>Erje Pitu</p>
+                    <p>Alma Simanjuntak</p>
                     <p>12023245067807</p>
-                    <p>rajapitu.s@edumind.ac.id</p>
-                    <p>pitugemink@gmail.com</p>
+                    <p>alma.s@admin.ac.id</p>
+                    <p>almasiumintak@gmail.com</p>
                     <p>081924667834</p>
                     <hr class="profile-divider">
                     <p>Fakultas Petir dan Ilmu Hitam</p>

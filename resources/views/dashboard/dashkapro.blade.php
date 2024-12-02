@@ -201,7 +201,7 @@
                     <h2 class="profile-title">Ketua Program Studi</h2>
                     <p>Mbappe Al Ansor</p>
                     <p>12023245067807</p>
-                    <p>mbpee.s@edumind.ac.id</p>
+                    <p>mbpee.s@lecturer.ac.id</p>
                     <p>zimbape@gmail.com</p>
                     <p>081924667834</p>
                     <hr class="profile-divider">

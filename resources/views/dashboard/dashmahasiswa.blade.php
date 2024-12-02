@@ -61,7 +61,7 @@
         }
 
         .status {
-            padding: 0 1.5rem 1.5rem;
+            padding: 1 1.5rem 1.5rem;
         }
 
         .status p {
@@ -123,9 +123,25 @@
             margin: 1rem 0;
         }
 
-        .status-card h2 {
-            font-size: 1.25rem;
-            margin-bottom: 1.25rem;
+        .status-card {
+            padding: 1.5rem;
+            background-color: white;
+            border-radius: 0.5rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .status-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #343a40;
+        }
+
+        .status-dosen {
+            font-size: 1rem;
+            color: #6c757d;
+            margin-bottom: 1.5rem;
+            line-height: 1.5;
         }
 
         .status-grid {
@@ -135,35 +151,31 @@
             text-align: center;
         }
 
+        .status-item {
+            padding: 0.5rem;
+        }
+
         .status-item-label {
+            font-size: 1rem;
             color: #6c757d;
-            font-weight: 600;
             margin-bottom: 0.5rem;
+            font-weight: 600;
         }
 
         .status-item-value {
-            font-size: 1.5rem;
+            font-size: 1.25rem;
             font-weight: 700;
             color: #212529;
         }
 
-        .status-pengajuan {
-            font-weight: bold;
-            text-align: center;
-            padding: 0.5rem;
-            border-radius: 5px;
-            margin-top: 1rem;
-        }
-
-        .status-pengajuan.disetujui {
+        .text-success {
             color: #28a745;
-            background-color: #d4edda;
         }
 
-        .status-pengajuan.belum-disetujui {
+        .text-warning {
             color: #dc3545;
-            background-color: #f8d7da;
         }
+
 
         .room-section {
             background: white;
@@ -192,7 +204,7 @@
         .room-icon {
             width: 48px;
             height: 48px;
-            background-color: #e9ecef;
+            background-color: white;
             border-radius: 0.5rem;
             display: flex;
             align-items: center;
@@ -238,7 +250,7 @@
             <!-- Profile Card -->
             <div class="card profile-card">
                 <div class="profile-image">
-                    <img src="{{ asset('paruq.jpg') }}" alt="Foto Profil">
+                    <img src="{{ asset('zeus.jpg') }}" alt="Foto Profil">
                 </div>
                 <div class="profile-info">
                     <h2 class="profile-title">Mahasiswa</h2>
@@ -256,32 +268,30 @@
             <!-- Status Card -->
             <main class="status">
                 <div class="card status-card">
-                    <div class="status-card">
-                        <h2>Status Akademik</h2>
-                        <p>Dosen wali: Thor Odinson, S.IH., M.Pet.<br>(NIP: 192020307862024)</p>
-                        <br>
-                        <br>
-                        <div class="status-info">
-                            <div class="status-grid">
-                                <div>
-                                    <p>Semester Akademik Sekarang</p>
-                                    <h2>2025/2026 Genap</h2>
-                                </div>
-                                <div>
-                                    <p>Semester Studi</p>
-                                    <h2>2</h2>
-                                </div>
-                                <div>
-                                    <p>Status Akademik</p>
-                                    <h2>Aktif</h2>
-                                </div>
-                            
+                    <h2 class="status-title">Status Akademik</h2>
+                    <p class="status-dosen">
+                        Dosen wali: <strong>Haji Thanos, S.IH., M.Pet</strong><br>
+                        (NIP: 192020307862024)
+                    </p>
+                    <div class="status-grid">
+                        <div class="status-item">
+                            <p class="status-item-label">Semester Akademik Sekarang</p>
+                            <p class="status-item-value">2025/2026 Genap</p>
+                        </div>
+                        <div class="status-item">
+                            <p class="status-item-label">Semester Studi</p>
+                            <p class="status-item-value">2</p>
+                        </div>
+                        <div class="status-item">
+                            <p class="status-item-label">Status Akademik</p>
+                            <p class="status-item-value 
+                                {{ $statusRegistrasi === 'Aktif' ? 'text-success' : 'text-warning' }}">
+                                {{ $statusRegistrasi }}
+                            </p>
                         </div>
                     </div>
-                    </div>
                 </div>
-            </div>
-        </div>
+                    </div>
         
         <!-- Registrasi Akademik as a clickable link -->
         <div class="room-cards">
@@ -291,20 +301,17 @@
             </div>
             <div class="room-info">
                 <h2>Registrasi Administratif</h2>
-                <p>Belum Registrasi</p>
             </div>
         </a>
         <br>
-        <br>
         <!-- Akademik as a clickable link -->
- <!-- Akademik as a clickable link -->
+<!-- Akademik as a clickable link -->
             <a href="{{ route('buat.irs') }}" class="room-section2">
                 <div class="room-icon">
                     <img src="{{ asset('Graduation Cap.png') }}" alt="Room Icon">
                 </div>
                 <div class="room-info">
                     <h2>Akademik</h2>
-                    <p>TA 2024/2025 Ganjil</p>
                 </div>
             </a>
         </div>
