@@ -50,11 +50,6 @@ Route::get('/registrasi', [RegistrasiController::class, 'index'])->name('registr
 Route::post('/registrasi/update', [RegistrasiController::class, 'updateStatus'])->name('registrasi.update');
 Route::get('/dashboard/mahasiswa', [DashboardMahasiswaController::class, 'index'])->name('dashboard.mahasiswa');
 
-Route::middleware(['auth'])->group(function () {
-    Route::get('/buat-irs', [BuatIRSController::class, 'createIRS'])->name('buat.irs');
-    Route::post('/submit-irs', [BuatIRSController::class, 'submitIRS'])->name('submit.irs');
-});
-
 // Route untuk logout
 Route::post('/logout', [LoginControl::class, 'logout'])->name('logout');
 

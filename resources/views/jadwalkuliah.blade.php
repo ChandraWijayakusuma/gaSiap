@@ -320,10 +320,6 @@
         .then(data => {
             if (data.success) {
                 alert('Jadwal berhasil disimpan');
-                window.location.reload(); // Reload the page to show the updated content
-
-                // Tampilkan tombol "Lihat Hasil Jadwal" setelah jadwal berhasil disubmit
-                document.getElementById('lihatJadwalBtn').classList.remove('hidden');
             } else {
                 alert(data.message);
             }

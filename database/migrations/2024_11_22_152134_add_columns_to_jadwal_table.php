@@ -9,21 +9,12 @@ class AddColumnsToJadwalTable extends Migration
     public function up()
     {
         Schema::table('jadwal', function (Blueprint $table) {
-            // Cek apakah kolom 'hari' sudah ada sebelum menambahkannya
-            if (!Schema::hasColumn('jadwal', 'hari')) {
-                $table->string('hari');
-            }
-    
-            if (!Schema::hasColumn('jadwal', 'jam_mulai')) {
-                $table->time('jam_mulai');
-            }
-    
-            if (!Schema::hasColumn('jadwal', 'jam_selesai')) {
-                $table->time('jam_selesai');
-            }
+            $table->string('hari');
+            $table->time('jam_mulai');
+            $table->time('jam_selesai');
+            $table->string('ruangan');
         });
     }
-    
 
     public function down()
     {
