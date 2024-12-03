@@ -29,8 +29,11 @@ public function updateStatus(Request $request)
         $mahasiswa->status = $request->input('status');
         $mahasiswa->save();
 
+        // Update session status
+        session(['statusAkademik' => $mahasiswa->status]);
+
         // Redirect kembali dengan pesan
-        return redirect()->route('registrasi')->with('statusAkademik', $mahasiswa->status);
+        return redirect()->route('registrasi');
     }
 
     // Jika mahasiswa tidak ditemukan
