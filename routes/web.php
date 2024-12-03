@@ -45,7 +45,13 @@ Route::get('/dekan/penyetujuan-jadwal', [JadwalKuliahController::class, 'penyetu
 Route::get('/dashboard/kapro', [JadwalKuliahController::class, 'dashKapro'])->name('dashboard.kapro');
 Route::get('/lihat-jadwal', [JadwalKuliahController::class, 'lihatJadwal'])->name('lihat.jadwal');
 
-//Route untuk Registrasi Akademik
+// Rute untuk menampilkan form IRS
+Route::get('/buatirs', [BuatIRSController::class, 'showForm'])->name('buatirs.form');
+
+// Rute untuk mengirim data IRS
+Route::post('/buatirs', [BuatIRSController::class, 'submitIRS'])->name('buatirs.submit');
+
+// Route untuk Registrasi Akademik
 Route::get('/registrasi', [RegistrasiController::class, 'index'])->name('registrasi');
 Route::post('/registrasi/update', [RegistrasiController::class, 'updateStatus'])->name('registrasi.update');
 Route::get('/dashboard/mahasiswa', [DashboardMahasiswaController::class, 'index'])->name('dashboard.mahasiswa');
