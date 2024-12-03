@@ -16,17 +16,6 @@ class CreateJadwalTable extends Migration
             $table->string('room', 50);
             $table->enum('status', ['Setujui', 'Belum Setujui'])->default('Belum Setujui'); // Hanya 2 opsi status
             $table->timestamps();
-
-            // Menghapus baris duplikat foreign key dan column lainnya
-            $table->foreign('matakuliah_id')  // Relasi ke matakuliah
-                  ->references('id')
-                  ->on('matakuliah')
-                  ->onDelete('cascade');
-            
-            // Kolom hari, jam_mulai dan jam_selesai
-            $table->string('hari');
-            $table->time('jam_mulai');
-            $table->time('jam_selesai');
         });
     }
 
