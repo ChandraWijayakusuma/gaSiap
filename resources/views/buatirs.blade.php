@@ -53,6 +53,7 @@
         .filled-cell {
             background-color: #e0f7fa;
             border-color: #00897b;
+            position: relative;
         }
 
         .delete-btn {
@@ -97,6 +98,10 @@
 
         .draggable:active {
             cursor: grabbing;
+        }
+
+        .draggable span {
+            display: block;
         }
     </style>
 </head>
@@ -143,7 +148,7 @@
                 <div id="matakuliahList">
                     @foreach ($matakuliah as $mk)
                         <div class="draggable" draggable="true" data-id="{{ $mk->id }}" data-name="{{ $mk->nama_matakuliah }}" data-sks="{{ $mk->sks }}">
-                            {{ $mk->nama_matakuliah }} ({{ $mk->sks }} SKS)
+                            <span>{{ $mk->nama_matakuliah }} ({{ $mk->sks }} SKS)</span>
                         </div>
                     @endforeach
                 </div>
@@ -191,13 +196,22 @@
         }
 
         function placeCourseInTable(dropzone, day, hour, sks) {
+            let firstCell = null;
             for (let i = 0; i < sks; i++) {
                 const nextCell = document.querySelector(`.dropzone[data-day="${day}"][data-hour="${hour + i}"]`);
+                if (i === 0) {
+                    firstCell = nextCell;
+                }
                 nextCell.classList.add('filled-cell');
-                nextCell.innerHTML = selectedElement.innerHTML;
                 nextCell.setAttribute('data-course', selectedElement.getAttribute('data-name'));
                 nextCell.setAttribute('data-sks', sks);
             }
+
+            // Span the first cell across multiple rows
+            firstCell.innerHTML = selectedElement.innerHTML;
+            firstCell.style.gridRowEnd = `span ${sks}`;
+            firstCell.setAttribute('data-course', selectedElement.getAttribute('data-name'));
+            firstCell.setAttribute('data-sks', sks);
 
             // After dropping, clear the dragged item to reset for new drags
             selectedElement = null;
