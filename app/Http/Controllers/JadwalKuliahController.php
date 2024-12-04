@@ -31,47 +31,39 @@ class JadwalKuliahController extends Controller
     // Submit Jadwal ke database
     public function submitJadwal(Request $request)
     {
+        // Mulai transaksi database
+        DB::beginTransaction();
+
         try {
-            $data = json_decode($request->input('jadwal'), true);
-            
-            if (!is_array($data) || empty($data)) {
-                return response()->json([
-                    'success' => false, 
-                    'message' => 'Invalid data format'
-                ], 400);
-            }
-
-            DB::transaction(function () use ($data) {
-                // Hapus semua data di tabel jadwal
-                Jadwal::truncate(); // Gunakan truncate agar lebih efisien
-
-                // Simpan data baru
-                foreach ($data as $jadwal) {
-                    Jadwal::create([
-                        'day' => $jadwal['hari'],
-                        'hour' => $jadwal['jam_mulai'], 
-                        'hari' => $jadwal['hari'],
-                        'jam_mulai' => $jadwal['jam_mulai'],
-                        'jam_selesai' => $jadwal['jam_selesai'],
-                        'matakuliah_id' => $jadwal['mata_kuliah'],
-                        'room' => $jadwal['ruang'],
-                        'ruangan' => $jadwal['ruang'],
-                        'status' => 'Belum Setujui'  // Default status
-                    ]);
-                }
-            });
-
-            return response()->json([
-                'success' => true,
-                'message' => 'Jadwal berhasil disimpan'
+            // Validasi data
+            $request->validate([
+                'mata_kuliah_id' => 'required',
+                'dosen_id' => 'required',
+                'ruangan_id' => 'required',
+                'hari' => 'required',
+                'jam' => 'required',
             ]);
 
+            // Proses penyimpanan data jadwal
+            $jadwal = new Jadwal();
+            $jadwal->mata_kuliah_id = $request->mata_kuliah_id;
+            $jadwal->dosen_id = $request->dosen_id;
+            $jadwal->ruangan_id = $request->ruangan_id;
+            $jadwal->hari = $request->hari;
+            $jadwal->jam = $request->jam;
+            $jadwal->save(); // Menyimpan jadwal
+
+            // Jika semuanya berjalan lancar, komit transaksi
+            DB::commit();
+            
+            // Redirect dengan pesan sukses
+            return redirect()->route('jadwalkuliah')->with('success', 'Jadwal berhasil diajukan!');
         } catch (\Exception $e) {
-            Log::error('Jadwal submission error: ' . $e->getMessage());
-            return response()->json([
-                'success' => false,
-                'message' => 'Error: ' . $e->getMessage()
-            ], 500);
+            // Rollback transaksi jika terjadi kesalahan
+            DB::rollBack();
+
+            // Kembalikan ke halaman sebelumnya dengan error
+            return back()->withErrors(['error' => 'Terjadi kesalahan saat mengajukan jadwal.']);
         }
     }
 
