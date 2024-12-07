@@ -10,11 +10,12 @@ class CreateJadwalTable extends Migration
     {
         Schema::create('jadwal', function (Blueprint $table) {
             $table->id();
-            $table->enum('day', ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat']);
-            $table->time('hour');
+            $table->enum('hari', ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat']);
+            $table->time('jam_mulai');
+            $table->time('jam_selesai');
+            $table->string('ruangan', 50);
             $table->unsignedBigInteger('matakuliah_id');
-            $table->string('room', 50);
-            $table->enum('status', ['Setujui', 'Belum Setujui'])->default('Belum Setujui'); // Hanya 2 opsi status
+            $table->enum('status', ['Setujui', 'Belum Disetujui'])->default('Belum Disetujui'); // Hanya 2 opsi status
             $table->timestamps();
         });
     }

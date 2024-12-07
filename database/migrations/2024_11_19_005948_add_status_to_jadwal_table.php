@@ -9,8 +9,8 @@ return new class extends Migration
     public function up()
     {
         Schema::table('jadwal', function (Blueprint $table) {
-            $table->enum('status', ['Setujui', 'Belum Setujui'])
-                  ->default('Belum Setujui')
+            $table->enum('status', ['Setujui', 'Belum Disetujui'])
+                  ->default('Belum Disetujui')
                   ->change(); // Mengubah atau menambahkan kolom status
         });
     }

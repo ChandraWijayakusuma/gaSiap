@@ -8,7 +8,7 @@ use App\Models\Jadwal;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
-
+use Illuminate\Support\Facades\Validator;
 
 class JadwalKuliahController extends Controller
 {
@@ -31,41 +31,72 @@ class JadwalKuliahController extends Controller
     // Submit Jadwal ke database
     public function submitJadwal(Request $request)
     {
-        // Mulai transaksi database
+        $jadwalData = $request->input('jadwal');
+
+        Log::info($jadwalData);
+        // Validate the jadwal data
+        $validator = Validator::make($jadwalData, [
+            '*.hari' => 'required',
+            '*.jam_mulai' => 'required',
+            '*.jam_selesai' => 'required',
+            '*.mata_kuliah_id' => 'required|exists:matakuliah,id',
+            '*.ruang' => 'required',
+        ]);
+
+        Log::info('Sebelum validasi');
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Validasi gagal',
+                'errors' => $validator->errors()
+            ], 422);
+        }
+
+        Log::info('Setelah validasi');
+    
         DB::beginTransaction();
-
+        Log::info('Memulai proses penyimpanan jadwal');
         try {
-            // Validasi data
-            $request->validate([
-                'mata_kuliah_id' => 'required',
-                'dosen_id' => 'required',
-                'ruangan_id' => 'required',
-                'hari' => 'required',
-                'jam' => 'required',
-            ]);
+            Log::info('Sebelum delete jadwal');
+            Jadwal::where('id', '>', 0)->delete();
+            Log::info('Setelah delete jadwal');
 
-            // Proses penyimpanan data jadwal
-            $jadwal = new Jadwal();
-            $jadwal->mata_kuliah_id = $request->mata_kuliah_id;
-            $jadwal->dosen_id = $request->dosen_id;
-            $jadwal->ruangan_id = $request->ruangan_id;
-            $jadwal->hari = $request->hari;
-            $jadwal->jam = $request->jam;
-            $jadwal->save(); // Menyimpan jadwal
+            Log::info('Sebelum perulangan foreach');
+            foreach ($jadwalData as $data) {
+                Log::info('Dalam perulangan foreach, memproses data: ' . json_encode($data));
+                Jadwal::create([
+                    'hari' => $data['hari'],
+                    'jam_mulai' => $data['jam_mulai'],
+                    'jam_selesai' => $data['jam_selesai'],
+                    'ruangan' => $data['ruang'],
+                    'matakuliah_id' => $data['mata_kuliah_id'],
+                    'status' => 'Belum Disetujui',
+                ]);
+            }
+            Log::info('Setelah perulangan foreach');
 
-            // Jika semuanya berjalan lancar, komit transaksi
+            Log::info('Sebelum commit transaksi');
             DB::commit();
-            
-            // Redirect dengan pesan sukses
-            return redirect()->route('jadwalkuliah')->with('success', 'Jadwal berhasil diajukan!');
+            Log::info('Setelah commit transaksi');
+            Log::info('Jadwal berhasil disimpan');
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Jadwal berhasil disimpan'
+            ]);
         } catch (\Exception $e) {
-            // Rollback transaksi jika terjadi kesalahan
             DB::rollBack();
 
-            // Kembalikan ke halaman sebelumnya dengan error
-            return back()->withErrors(['error' => 'Terjadi kesalahan saat mengajukan jadwal.']);
+            Log::error('Terjadi kesalahan saat menyimpan jadwal: ' . $e->getMessage());
+            Log::error($e->getTraceAsString());
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Terjadi kesalahan saat menyimpan jadwal' . $e->getMessage()
+            ], 500);
         }
     }
+
 
     // Menampilkan pengajuan jadwal untuk Dekan
     public function viewPengajuan()
@@ -77,7 +108,7 @@ class JadwalKuliahController extends Controller
 
     public function dashKapro()
     {
-        $statusJadwal = Jadwal::where('status', 'Belum Setujui')->exists()
+        $statusJadwal = Jadwal::where('status', 'Belum Disetujui')->exists()
             ? 'Belum Disetujui'
             : 'Disetujui';
 
@@ -90,7 +121,7 @@ class JadwalKuliahController extends Controller
     // Approve semua jadwal
     public function approveAllJadwal()
     {
-        Jadwal::where('status', 'Belum Setujui')
+        Jadwal::where('status', 'Belum Disetujui')
             ->update(['status' => 'Setujui']);
 
         return redirect()->back()->with('success', 'Semua jadwal berhasil disetujui');
@@ -100,7 +131,7 @@ class JadwalKuliahController extends Controller
     public function rejectAllJadwal()
     {
         Jadwal::where('status', 'Setujui')
-            ->update(['status' => 'Belum Setujui']);
+            ->update(['status' => 'Belum Disetujui']);
 
         return redirect()->back()->with('success', 'Semua jadwal ditolak');
     }
@@ -109,7 +140,7 @@ class JadwalKuliahController extends Controller
     public function lihatJadwal()
     {
         $jadwal = Jadwal::with('matakuliah')->get();
-        $statusJadwal = Jadwal::where('status', 'Belum Setujui')->exists()
+        $statusJadwal = Jadwal::where('status', 'Belum Disetujui')->exists()
             ? 'Belum Disetujui'
             : 'Disetujui';
 
