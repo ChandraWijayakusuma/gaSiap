@@ -15,22 +15,32 @@ class RuangController extends Controller
     }
 
     // Fungsi untuk menambahkan ruangan baru
-    public function store(Request $request)
-    {
-        $request->validate([
-            'nama_ruang' => 'required|string|max:255',
-            'kuota_ruang' => 'required|integer|min:1',
-        ]);
 
-        Ruang::create([
-            'nama_ruang' => $request->nama_ruang,
-            'kuota_ruang' => $request->kuota_ruang,
-            'prodi' => null,
-            'status_persetujuan' => 'Belum Disetujui', // Default status
-        ]);
+public function store(Request $request)
+{
+    $request->validate([
+        'nama_ruang' => 'required|string|max:255',
+        'kuota_ruang' => 'required|integer|min:1',
+    ]);
 
-        return redirect()->back()->with('success', 'Room added successfully.');
+    // Cek apakah nama ruang sudah ada
+    $exists = Ruang::where('nama_ruang', $request->nama_ruang)->exists();
+    if ($exists) {
+        // Jika nama ruang sudah ada, tampilkan pesan error dan simpan di session
+        return redirect()->back()->with('error', 'Nama ruang sudah terdaftar!');
     }
+
+    Ruang::create([
+        'nama_ruang' => $request->nama_ruang,
+        'kuota_ruang' => $request->kuota_ruang,
+        'prodi' => null,
+        'status_persetujuan' => 'Belum Disetujui', // Default status
+    ]);
+
+    // Jika berhasil, beri pesan success
+    return redirect()->back()->with('success', 'Ruang berhasil ditambahkan!');
+}
+
 
 
     // Fungsi untuk mengupdate ruangan

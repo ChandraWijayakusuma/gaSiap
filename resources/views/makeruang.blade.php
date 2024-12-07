@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Manage Rooms - gaSIAP</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.4/dist/sweetalert2.min.css" rel="stylesheet">
     <script>
         function confirmPengajuan(event) {
             event.preventDefault(); // Mencegah pengalihan halaman langsung
@@ -112,6 +113,31 @@
         </a>
     </div>
 </div>
+
+@if(session('success'))
+    <script>
+        console.log('Success:', "{{ session('success') }}");
+        Swal.fire({
+            icon: 'success',
+            title: 'Berhasil!',
+            text: "{{ session('success') }}",
+            confirmButtonText: 'OK'
+        });
+    </script>
+@endif
+
+@if(session('error'))
+    <script>
+        console.log('Error:', "{{ session('error') }}");
+        Swal.fire({
+            icon: 'error',
+            title: 'Gagal!',
+            text: "{{ session('error') }}",
+            confirmButtonText: 'OK'
+        });
+    </script>
+@endif
+
 
 </body>
 </html>
