@@ -1,14 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-   <meta charset="UTF-8">
-   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <meta name="csrf-token" content="{{ csrf_token() }}">
-   <title>Penyetujuan Jadwal - gaSIAP</title>
-   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-   <style>
-       /* Header styles */
-       .header {
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <title>Penyetujuan Jadwal - gaSIAP</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        .header {
             background-color: #4a148c;
             padding: 1rem 1.5rem;
             display: flex;
@@ -16,159 +15,159 @@
             align-items: center;
         }
 
-       .logo {
-           font-size: 1.5rem;
-           font-weight: bold;
-       }
+        .schedule-table {
+            width: 100%;
+            border-collapse: collapse;
+            table-layout: fixed;
+        }
 
-       /* Schedule table styles */
-       .schedule-table {
-           width: 100%;
-           border-collapse: collapse;
-           table-layout: fixed;
-       }
+        .schedule-table th, .schedule-table td {
+            border: 1px solid #ddd;
+            text-align: center;
+            height: 60px;
+            padding: 4px;
+            position: relative;
+            vertical-align: top;
+        }
 
-       .schedule-table th, .schedule-table td {
-           border: 1px solid #ddd;
-           text-align: center;
-           height: 60px;
-           padding: 4px;
-           position: relative;
-           vertical-align: top;
-       }
+        .filled-cell {
+            padding: 8px;
+            border-radius: 4px;
+            margin: 2px;
+        }
 
-       .filled-cell {
-           background-color: #e0f7fa;
-           border-color: #00897b;
-           padding: 8px;
-       }
+        .sks-1 { height: 60px; }
+        .sks-2 { height: 120px; }
+        .sks-3 { height: 180px; }
+        .sks-4 { height: 240px; }
 
-       /* Tinggi cell berdasarkan SKS */
-       .sks-1 { height: 60px; }
-       .sks-2 { height: 120px; }
-       .sks-3 { height: 180px; }
-       .sks-4 { height: 240px; }
+        .status-pending {
+            background-color: #fff3cd;
+            border: 1px solid #ffeeba;
+        }
 
-       .status-pending {
-           background-color: #fff3cd;
-       }
+        .status-approved {
+            background-color: #d4edda;
+            border: 1px solid #c3e6cb;
+        }
 
-       .status-approved {
-           background-color: #d4edda;
-       }
+        .matkul-info {
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
 
-       .matkul-info {
-           margin-bottom: 4px;
-           font-weight: 500;
-       }
+        .room-info {
+            font-size: 0.875rem;
+            color: #666;
+            margin-bottom: 2px;
+        }
 
-       .room-info {
-           font-size: 0.875rem;
-           color: #4b5563;
-       }
-
-       .status-text {
-           font-size: 0.75rem;
-           margin-top: 4px;
-       }
-
-       .dropzone {
-           min-height: 60px;
-       }
-   </style>
+        .status-text {
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+    </style>
 </head>
 <body class="bg-gray-100">
-   <header class="header">
-       <a href="{{ route('dashboard.dekan') }}" class="text-white text-2xl font-bold">gaSIAP</a>
-   </header>
+    <header class="header">
+        <a href="{{ route('dashboard') }}" class="text-white text-2xl font-bold">gaSIAP</a>
+    </header>
 
-   <div class="container mx-auto px-6 py-4">
-       <div class="flex justify-between items-center mb-4">
-           <h2 class="text-2xl font-semibold text-gray-700">Penyetujuan Jadwal</h2>
-           <div class="space-x-2">
-               <form method="POST" action="{{ route('approve.all.jadwal') }}" class="inline">
-                   @csrf
-                   <button type="submit" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded">
-                       Setujui Semua
-                   </button>
-               </form>
-               <form method="POST" action="{{ route('reject.all.jadwal') }}" class="inline">
-                   @csrf
-                   <button type="submit" class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded">
-                       Tolak Semua
-                   </button>
-               </form>
-           </div>
-       </div>
+    <div class="container mx-auto px-6 py-4">
+        <div class="flex justify-between items-center mb-6">
+            <h2 class="text-2xl font-semibold text-gray-700">Penyetujuan Jadwal</h2>
+            
+            @if(!$jadwal->isEmpty())
+                <div class="space-x-2">
+                    <form method="POST" action="{{ route('approve.all.jadwal') }}" class="inline">
+                        @csrf
+                        <button type="submit" 
+                                class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded transition duration-200">
+                            Setujui Semua
+                        </button>
+                    </form>
+                    <form method="POST" action="{{ route('reject.all.jadwal') }}" class="inline">
+                        @csrf
+                        <button type="submit" 
+                                class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded transition duration-200">
+                            Tolak Semua
+                        </button>
+                    </form>
+                </div>
+            @endif
+        </div>
 
-       @if(session('success'))
-           <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
-               {{ session('success') }}
-           </div>
-       @endif
+        @if(session('success'))
+            <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
+                {{ session('success') }}
+            </div>
+        @endif
 
-       <div class="w-full">
-           <table class="schedule-table">
-               <thead>
-                   <tr>
-                       <th>Time</th>
-                       <th>Senin</th>
-                       <th>Selasa</th>
-                       <th>Rabu</th>
-                       <th>Kamis</th>
-                       <th>Jumat</th>
-                   </tr>
-               </thead>
-               <tbody>
-                   @for ($hour = 7; $hour <= 18; $hour++)
-                       <tr>
-                           <td>{{ $hour }}:00</td>
-                           @foreach (['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat'] as $day)
-                               @php
-                                   $jadwalCell = $jadwal->first(function($j) use ($day, $hour) {
-                                       return $j->day === $day && 
-                                              (int)substr($j->jam_mulai, 0, 2) === $hour;
-                                   });
+        @if(session('error'))
+            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+                {{ session('error') }}
+            </div>
+        @endif
 
-                                   $isPartOfRowspan = $jadwal->first(function($j) use ($day, $hour) {
-                                       $jamMulai = (int)substr($j->jam_mulai, 0, 2);
-                                       $jamSelesai = (int)substr($j->jam_selesai, 0, 2);
-                                       return $j->day === $day && $hour > $jamMulai && $hour < $jamSelesai;
-                                   });
-                               @endphp
+        <div class="overflow-x-auto bg-white rounded-lg shadow">
+            <table class="schedule-table">
+                <thead>
+                    <tr>
+                        <th class="px-4 py-2 bg-gray-50">Time</th>
+                        @foreach(['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat'] as $day)
+                            <th class="px-4 py-2 bg-gray-50">{{ $day }}</th>
+                        @endforeach
+                    </tr>
+                </thead>
+                <tbody>
+                    @for($hour = 7; $hour <= 18; $hour++)
+                        <tr>
+                            <td class="px-4 py-2 bg-gray-50 font-medium">
+                                {{ sprintf('%02d:00', $hour) }}
+                            </td>
+                            @foreach(['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat'] as $day)
+                                @php
+                                    $jadwalCell = $jadwal->first(function($j) use ($day, $hour) {
+                                        return $j->hari === $day && 
+                                               (int)substr($j->jam_mulai, 0, 2) === $hour;
+                                    });
 
-                               @if($isPartOfRowspan)
-                                   {{-- Biarkan kosong untuk cell yang tergabung dalam rowspan --}}
-                                   @continue
-                               @endif
+                                    $isPartOfRowspan = $jadwal->first(function($j) use ($day, $hour) {
+                                        $jamMulai = (int)substr($j->jam_mulai, 0, 2);
+                                        $jamSelesai = (int)substr($j->jam_selesai, 0, 2);
+                                        return $j->hari === $day && 
+                                               $hour > $jamMulai && 
+                                               $hour < $jamSelesai;
+                                    });
+                                @endphp
 
-                               <td 
-                                   @if($jadwalCell)
-                                       rowspan="{{ (int)substr($jadwalCell->jam_selesai, 0, 2) - (int)substr($jadwalCell->jam_mulai, 0, 2) }}"
-                                   @endif
-                               >
-                                   @if($jadwalCell)
-                                       <div class="filled-cell {{ $jadwalCell->status === 'Setujui' ? 'status-approved' : 'status-pending' }} sks-{{ $jadwalCell->matakuliah->sks }}">
-                                           <div class="matkul-info">{{ $jadwalCell->matakuliah->nama_matakuliah }}</div>
-                                           <div class="room-info">({{ $jadwalCell->room }})</div>
-                                           <div class="status-text">
-                                               {{ $jadwalCell->status }}
-                                           </div>
-                                       </div>
-                                   @endif
-                               </td>
-                           @endforeach
-                       </tr>
-                   @endfor
-               </tbody>
-           </table>
-       </div>
+                                @if($isPartOfRowspan)
+                                    @continue
+                                @endif
 
-       @if($jadwal->isEmpty())
-           <div class="text-center py-4 text-gray-500">
-               Tidak ada jadwal yang perlu disetujui
-           </div>
-       @endif
-   </div>
+                                <td @if($jadwalCell)
+                                        rowspan="{{ (int)substr($jadwalCell->jam_selesai, 0, 2) - (int)substr($jadwalCell->jam_mulai, 0, 2) }}"
+                                    @endif>
+                                    @if($jadwalCell)
+                                        <div class="filled-cell {{ $jadwalCell->status === 'Setujui' ? 'status-approved' : 'status-pending' }} sks-{{ $jadwalCell->matakuliah->sks }}">
+                                            <div class="matkul-info">{{ $jadwalCell->matakuliah->nama_matakuliah }}</div>
+                                            <div class="room-info">({{ $jadwalCell->ruangan }})</div>
+                                            <div class="status-text">{{ $jadwalCell->status }}</div>
+                                        </div>
+                                    @endif
+                                </td>
+                            @endforeach
+                        </tr>
+                    @endfor
+                </tbody>
+            </table>
+        </div>
+
+        @if($jadwal->isEmpty())
+            <div class="text-center py-8 text-gray-500">
+                Tidak ada jadwal yang perlu disetujui
+            </div>
+        @endif
+    </div>
 </body>
 </html>
