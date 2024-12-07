@@ -306,7 +306,7 @@
         <br>
         <!-- Akademik as a clickable link -->
 <!-- Akademik as a clickable link -->
-            <a href="{{ route('buat.irs') }}" class="room-section2">
+            <a href="{{ route('buatirs.form') }}" class="room-section2">
                 <div class="room-icon">
                     <img src="{{ asset('Graduation Cap.png') }}" alt="Room Icon">
                 </div>
