@@ -99,12 +99,18 @@ class JadwalKuliahController extends Controller
 
 
     // Menampilkan pengajuan jadwal untuk Dekan
-    public function viewPengajuan()
-    {
-        $jadwal = Jadwal::with('matakuliah')->get();
+public function viewPengajuan()
+{
+    // Ambil semua jadwal dengan relasi matakuliah
+    $jadwal = Jadwal::with('matakuliah')->get();
+    
+    // Cek status persetujuan jadwal
+    $statusJadwal = Jadwal::where('status', 'Belum Disetujui')->exists()
+        ? 'Belum Disetujui'
+        : 'Disetujui';
 
-        return view('dekan.penyetujuan_jadwal', compact('jadwal'));
-    }
+    return view('dekan.penyetujuan_jadwal', compact('jadwal', 'statusJadwal'));
+}
 
     public function dashKapro()
     {
@@ -121,25 +127,36 @@ class JadwalKuliahController extends Controller
     // Approve semua jadwal
     public function approveAllJadwal()
     {
-        Jadwal::where('status', 'Belum Disetujui')
-            ->update(['status' => 'Setujui']);
-
-        return redirect()->back()->with('success', 'Semua jadwal berhasil disetujui');
+        try {
+            Jadwal::where('status', 'Belum Disetujui')
+                ->update(['status' => 'Setujui']);
+    
+            return redirect()->back()->with('success', 'Semua jadwal berhasil disetujui');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Terjadi kesalahan saat menyetujui jadwal');
+        }
     }
-
+    
     // Reject semua jadwal
     public function rejectAllJadwal()
     {
-        Jadwal::where('status', 'Setujui')
-            ->update(['status' => 'Belum Disetujui']);
-
-        return redirect()->back()->with('success', 'Semua jadwal ditolak');
+        try {
+            Jadwal::where('status', 'Setujui')
+                ->update(['status' => 'Belum Disetujui']);
+    
+            return redirect()->back()->with('success', 'Semua jadwal ditolak');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Terjadi kesalahan saat menolak jadwal');
+        }
     }
 
     // Lihat Jadwal
     public function lihatJadwal()
     {
+        // Ambil semua jadwal dengan relasi matakuliah
         $jadwal = Jadwal::with('matakuliah')->get();
+        
+        // Cek status persetujuan jadwal
         $statusJadwal = Jadwal::where('status', 'Belum Disetujui')->exists()
             ? 'Belum Disetujui'
             : 'Disetujui';

@@ -37,7 +37,7 @@ Route::patch('/setujui-semua-ruang', [RuangController::class, 'setujuiSemua'])->
 Route::get('/jadwalkuliah', [JadwalKuliahController::class, 'showJadwal'])->name('jadwalkuliah'); // Tampilkan jadwal kuliah
 Route::post('/submit-jadwal', [JadwalKuliahController::class, 'submitJadwal'])->name('submit.jadwal'); // Ajukan jadwal
 Route::get('/dekan/jadwal/penyetujuan', [JadwalKuliahController::class, 'viewPengajuan'])->name('dekan.jadwal.penyetujuan');
-Route::get('/penyetujuan-jadwal', [JadwalKuliahController::class, 'viewPengajuan'])->name('dekan.jadwal.penyetujuan');
+Route::get('/penyetujuan-jadwal', [JadwalKuliahController::class, 'viewPengajuan'])->name('penyetujuan.jadwal');
 Route::post('/approve-all-jadwal', [JadwalKuliahController::class, 'approveAllJadwal'])->name('approve.all.jadwal');
 Route::post('/reject-all-jadwal', [JadwalKuliahController::class, 'rejectAllJadwal'])->name('reject.all.jadwal');
 Route::get('/dashboard/dekan', [DashboardDekanController::class, 'index'])->name('dashboard.dekan');

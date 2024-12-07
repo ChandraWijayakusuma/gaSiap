@@ -212,17 +212,7 @@
 
             <!-- Status Card -->
             <div class="card status-card">
-                <h2>Status IRS</h2>
-                <div class="status-grid">
-                    <div>
-                        <p class="status-item-label">IRS Terverifikasi</p>
-                        <p class="status-item-value verifikasi">10</p>
-                    </div>
-                    <div>
-                        <p class="status-item-label">IRS Belum Terverifikasi</p>
-                        <p class="status-item-value belum-verifikasi">15</p>
-                    </div>
-                </div>
+                <h2>Status Jadwal</h2>
 
                 <!-- Status Jadwal Mata Kuliah -->
                 <div class="status-jadwal">
