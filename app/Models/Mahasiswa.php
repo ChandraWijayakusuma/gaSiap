@@ -12,6 +12,7 @@ class Mahasiswa extends Model
     protected $table = 'mahasiswas';
 
     protected $fillable = [
-        'status', 
+        'status',
+        'semester',
     ];
 }

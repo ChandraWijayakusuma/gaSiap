@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Matakuliah;
 use App\Models\Ruang;
+use App\Models\Mahasiswa;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
