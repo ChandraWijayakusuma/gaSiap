@@ -276,11 +276,11 @@
                     <div class="status-grid">
                         <div class="status-item">
                             <p class="status-item-label">Semester Akademik Sekarang</p>
-                            <p class="status-item-value">2025/2026 Genap</p>
+                            <p class="status-item-value">2025/2026 Ganjil</p>
                         </div>
                         <div class="status-item">
                             <p class="status-item-label">Semester Studi</p>
-                            <p class="status-item-value">2</p>
+                            <p class="status-item-value">{{ $semester }}</p>
                         </div>
                         <div class="status-item">
                             <p class="status-item-label">Status Akademik</p>
@@ -301,17 +301,19 @@
             </div>
             <div class="room-info">
                 <h2>Registrasi Administratif</h2>
+                <p>Pengajuan Aktif atau Cuti perkuliahan</p>
             </div>
         </a>
         <br>
         <!-- Akademik as a clickable link -->
 <!-- Akademik as a clickable link -->
-            <a href="{{ route('buatirs.form') }}" class="room-section2">
+            <a href="{{ route('buat.irs') }}" class="room-section2">
                 <div class="room-icon">
                     <img src="{{ asset('Graduation Cap.png') }}" alt="Room Icon">
                 </div>
                 <div class="room-info">
                     <h2>Akademik</h2>
+                    <p>TA 2025/2026 Ganjil</p>
                 </div>
             </a>
         </div>
