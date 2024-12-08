@@ -176,7 +176,6 @@
             color: #dc3545;
         }
 
-
         .room-section {
             background: white;
             border-radius: 0.5rem;
@@ -185,8 +184,9 @@
             align-items: center;
             gap: 1.5rem;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-            text-decoration: none; /* Hilangkan underline pada tautan */
-            color: inherit; /* Warna teks mengikuti warna default */
+            text-decoration: none;
+            color: inherit;
+            margin-bottom: 1.5rem;
         }
 
         .room-section2 {
@@ -197,8 +197,8 @@
             align-items: center;
             gap: 1.5rem;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-            text-decoration: none; /* Hilangkan underline pada tautan */
-            color: inherit; /* Warna teks mengikuti warna default */
+            text-decoration: none;
+            color: inherit;
         }
 
         .room-icon {
@@ -225,8 +225,58 @@
             color: #6c757d;
         }
 
+        /* New styles for achievements section */
+        .achievements-card {
+            background: white;
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .achievements-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .achievements-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #343a40;
+        }
+
+        .achievement-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .achievement-item {
+            background: #f8f9fa;
+            padding: 1.25rem;
+            border-radius: 0.5rem;
+            text-align: center;
+        }
+
+        .achievement-label {
+            font-size: 1rem;
+            color: #6c757d;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .achievement-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #4a148c;
+        }
+
         @media (max-width: 768px) {
-            .dashboard-cards {
+            .dashboard-cards,
+            .achievement-stats {
                 grid-template-columns: 1fr;
             }
         }
@@ -284,17 +334,34 @@
                         </div>
                         <div class="status-item">
                             <p class="status-item-label">Status Akademik</p>
-                            <p class="status-item-value 
-                                {{ $statusRegistrasi === 'Aktif' ? 'text-success' : 'text-warning' }}">
+                            <p class="status-item-value {{ $statusRegistrasi === 'Aktif' ? 'text-success' : 'text-warning' }}">
                                 {{ $statusRegistrasi }}
                             </p>
                         </div>
                     </div>
                 </div>
-                    </div>
+            </main>
+        </div>
+
+        <!-- Academic Achievements Section -->
+        <div class="achievements-card">
+            <div class="achievements-header">
+                <h2 class="achievements-title">Prestasi Akademik</h2>
+            </div>
+            
+            <div class="achievement-stats">
+                <div class="achievement-item">
+                    <p class="achievement-label">IPK (Index Prestasi Kumulatif)</p>
+                    <p class="achievement-value">{{ $ipk ?? '0.00' }}</p>
+                </div>
+                <div class="achievement-item">
+                    <p class="achievement-label">SKS (Satuan Kredit Semester)</p>
+                    <p class="achievement-value">{{ $sks ?? '18' }}</p>
+                </div>
+            </div>
+        </div>
         
-        <!-- Registrasi Akademik as a clickable link -->
-        <div class="room-cards">
+        <!-- Registrasi Akademik -->
         <a href="{{ route('registrasi') }}" class="room-section">
             <div class="room-icon">
                 <img src="{{ asset('User.png') }}" alt="Room Icon">
@@ -304,19 +371,17 @@
                 <p>Pengajuan Aktif atau Cuti perkuliahan</p>
             </div>
         </a>
-        <br>
-        <!-- Akademik as a clickable link -->
-<!-- Akademik as a clickable link -->
-            <a href="{{ route('buat.irs') }}" class="room-section2">
-                <div class="room-icon">
-                    <img src="{{ asset('Graduation Cap.png') }}" alt="Room Icon">
-                </div>
-                <div class="room-info">
-                    <h2>Akademik</h2>
-                    <p>TA 2025/2026 Ganjil</p>
-                </div>
-            </a>
-        </div>
+
+        <!-- Akademik -->
+        <a href="{{ route('buat.irs') }}" class="room-section2">
+            <div class="room-icon">
+                <img src="{{ asset('Graduation Cap.png') }}" alt="Room Icon">
+            </div>
+            <div class="room-info">
+                <h2>Akademik</h2>
+                <p>TA 2025/2026 Ganjil</p>
+            </div>
+        </a>
     </main>
 </body>
 </html>
