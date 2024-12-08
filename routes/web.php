@@ -66,6 +66,9 @@ Route::post('/penyetujuan-irs/approve/{id}', [PenyetujuanIRSController::class, '
 Route::post('/penyetujuan-irs/reject/{id}', [PenyetujuanIRSController::class, 'reject'])->name('penyetujuan.irs.reject');
 Route::get('/dashboard/dosen', [DashboardDosenController::class, 'index'])->name('dashboard.dosen');
 
+//Route untuk mendownload IRS menjadi PDF
+Route::get('/irs/download-pdf/{id}', [IRSController::class, 'downloadPDF'])->name('irs.download-pdf');
+
 // Route untuk logout
 Route::post('/logout', [LoginControl::class, 'logout'])->name('logout');
 
