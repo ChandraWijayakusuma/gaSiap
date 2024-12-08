@@ -24,6 +24,11 @@
             justify-content: space-between;
             align-items: center;
         }
+
+        .breadcrumb {
+            padding: 1rem 1.5rem;
+            color: #6c757d;
+        }
     </style>
 </head>
 <body class="bg-gray-100">
@@ -31,6 +36,10 @@
 <header class="header">
     <a href="{{ route('dashboard') }}" class="text-white text-2xl font-bold">gaSIAP</a>
 </header>
+
+<div class="breadcrumb">
+    Home / Lihat IRS
+</div>
 
 <div class="container mx-auto px-6 py-4">
     <h2 class="text-2xl font-semibold text-gray-700 mb-4">Room Occupancy</h2>

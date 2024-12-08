@@ -179,10 +179,11 @@
     
         <!-- Add Download PDF button only if approved -->
         @if($irs && $irs->status === 'Disetujui' && $irsDetails->isNotEmpty())
-            <a href="{{ route('irs.download-pdf', $irs->id) }}" class="download-btn">   
-                Cetak IRS
-            </a>
-        @endif
+        <a href="{{ route('irs.download-pdf', $irs->id) }}" class="download-btn">
+            <img src="download.svg" alt="Print" class="inline-block w-5 h-5 mr-2" />
+            Cetak IRS
+        </a>
+    @endif
     
         @if($irs && $irs->status === 'Belum Disetujui' && $irsDetails->isNotEmpty())
             <form action="{{ route('irs.ajukan', $irs->id) }}" method="POST" class="inline">

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Mahasiswa; // Pastikan Anda menggunakan model yang sesuai
+use App\Models\Mahasiswa;
 
 class RegistrasiController extends Controller
 {
@@ -12,6 +12,8 @@ class RegistrasiController extends Controller
     // Ambil data status akademik dari database atau set default
     $statusAkademik = 'Belum Terpilih'; // Default status
     return view('registrasi', compact('statusAkademik'));
+
+
 }
 
 public function updateStatus(Request $request)
@@ -41,7 +43,7 @@ public function updateStatus(Request $request)
 }
 
 public function dashMahasiswa() {
-    $statusRegistrasi = Mahasiswa::where('status', 'Aktif')->exist()
+    $statusRegistrasi = Mahasiswa::where('status', 'Aktif')->exists()
         ? 'Aktif'
         : 'Cuti';
 

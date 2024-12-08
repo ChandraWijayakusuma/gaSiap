@@ -33,6 +33,11 @@
             text-decoration: none;
         }
 
+        .breadcrumb {
+            padding: 1rem 1.5rem;
+            color: #6c757d;
+        }
+
         .logout-btn {
             background-color: #dc3545;
             color: white;
@@ -169,6 +174,10 @@
             <button type="submit" class="logout-btn">Logout</button>
         </form>
     </header>
+
+    <div class="breadcrumb">
+        Home / Registrasi
+    </div>
 
     <div class="container">
         <div class="title">Registrasi Administratif</div>

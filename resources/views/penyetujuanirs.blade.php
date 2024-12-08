@@ -22,6 +22,11 @@
             text-decoration: none;
         }
 
+        .breadcrumb {
+            padding: 1rem 1.5rem;
+            color: #6c757d;
+        }
+
         .action-btn {
             padding: 0.375rem 0.75rem;
             border-radius: 0.25rem;
@@ -71,6 +76,10 @@
     <header class="header">
         <a href="{{ route('dashboard') }}" class="logo">gaSIAP</a>
     </header>
+
+    <div class="breadcrumb">
+        Home / Verifikasi IRS
+    </div>
 
     <div class="container mx-auto px-6 py-8">
         <div class="bg-white rounded-lg shadow-md overflow-hidden">
