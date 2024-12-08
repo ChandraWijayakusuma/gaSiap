@@ -1,13 +1,16 @@
 <?php
 
-use App\Http\Controllers\BuatIRSController;
 use App\Http\Controllers\DashboardDekanController;
 use App\Http\Controllers\LoginControl;
 use App\Http\Controllers\RuangController;
 use App\Http\Controllers\RegistrasiController;
 use App\Http\Controllers\JadwalKuliahController; // Tambahkan ini untuk jadwalkuliah
 use App\Http\Controllers\DashboardMahasiswaController;
+use App\Http\Controllers\DashboardDosenController;
 use App\Http\Controllers\MataKuliahController;
+use App\Http\Controllers\BuatIRSController;
+use App\Http\Controllers\IRSController;
+use App\Http\Controllers\PenyetujuanIRSController;
 use Illuminate\Support\Facades\Route;
 
 // Route untuk halaman login
@@ -45,16 +48,23 @@ Route::get('/dekan/penyetujuan-jadwal', [JadwalKuliahController::class, 'penyetu
 Route::get('/dashboard/kapro', [JadwalKuliahController::class, 'dashKapro'])->name('dashboard.kapro');
 Route::get('/lihat-jadwal', [JadwalKuliahController::class, 'lihatJadwal'])->name('lihat.jadwal');
 
-// Rute untuk menampilkan form IRS
-Route::get('/buatirs', [BuatIRSController::class, 'showForm'])->name('buatirs.form');
-
-// Rute untuk mengirim data IRS
-Route::post('/buatirs', [BuatIRSController::class, 'submitIRS'])->name('buatirs.submit');
-
 // Route untuk Registrasi Akademik
 Route::get('/registrasi', [RegistrasiController::class, 'index'])->name('registrasi');
 Route::post('/registrasi/update', [RegistrasiController::class, 'updateStatus'])->name('registrasi.update');
 Route::get('/dashboard/mahasiswa', [DashboardMahasiswaController::class, 'index'])->name('dashboard.mahasiswa');
+
+//Route untuk Membuat IRS
+Route::get('/buat-irs', [BuatIRSController::class, 'index'])->name('buat.irs');
+Route::post('/irs/store', [BuatIRSController::class, 'store'])->name('irs.store');
+Route::get('/lihat-irs', [IRSController::class, 'show'])->name('lihat.irs');
+Route::delete('/irs/delete-matkul/{id}', [IRSController::class, 'deleteMatkulIRS'])->name('irs.delete.matkul');
+
+//Route untuk Penyetujuan IRS
+Route::post('/irs/ajukan/{id}', [IRSController::class, 'ajukanIRS'])->name('irs.ajukan');
+Route::get('/penyetujuan-irs', [PenyetujuanIRSController::class, 'index'])->name('penyetujuan.irs');
+Route::post('/penyetujuan-irs/approve/{id}', [PenyetujuanIRSController::class, 'approve'])->name('penyetujuan.irs.approve');
+Route::post('/penyetujuan-irs/reject/{id}', [PenyetujuanIRSController::class, 'reject'])->name('penyetujuan.irs.reject');
+Route::get('/dashboard/dosen', [DashboardDosenController::class, 'index'])->name('dashboard.dosen');
 
 // Route untuk logout
 Route::post('/logout', [LoginControl::class, 'logout'])->name('logout');

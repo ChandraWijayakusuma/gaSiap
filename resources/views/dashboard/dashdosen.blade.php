@@ -266,7 +266,7 @@
             </div>
 
             <!-- Status Card -->
-            <main class="status">
+            <div class="status">
                 <div class="card status-card">
                     <h2 class="status-title">Status Pembimbing Akademik</h2>
                     <div class="status-grid">
@@ -276,19 +276,20 @@
                         </div>
                         <div class="status-item">
                             <p class="status-item-label">Dokumen Verified</p>
-                            <p class="status-item-value">25</p>
+                            <p class="status-item-value">{{ $approvedCount }}</p>
                         </div>
                         <div class="status-item">
                             <p class="status-item-label">Jumlah Dokumen</p>
-                            <p class="status-item-value">100</p>
+                            <p class="status-item-value">{{ $totalCount }}</p>
                         </div>
                     </div>
                 </div>
-                    </div>
+            </div>
+        </div>
         
         <!-- Registrasi Akademik as a clickable link -->
         <div class="room-cards">
-            <a href="{{ route('registrasi') }}" class="room-section">
+            <a href="{{ route('penyetujuan.irs') }}" class="room-section">
                 <div class="room-icon">
                     <img src="{{ asset('document.png') }}" alt="Room Icon">
                 </div>
