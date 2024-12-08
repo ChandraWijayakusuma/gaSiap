@@ -15,6 +15,11 @@
             align-items: center;
         }
 
+        .breadcrumb {
+            padding: 1rem 1.5rem;
+            color: #6c757d;
+        }
+
         .schedule-table {
             width: 100%;
             border-collapse: collapse;
@@ -84,6 +89,10 @@
     <header class="header">
         <a href="{{ route('dashboard') }}" class="text-white text-2xl font-bold">gaSIAP</a>
     </header>
+
+    <div class="breadcrumb">
+        Home / Lihat Jadwal
+    </div>
 
     <div class="container mx-auto px-6 py-4">
         <div class="flex justify-between items-center mb-4">

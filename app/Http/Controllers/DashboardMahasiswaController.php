@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Models\Mahasiswa;
 use App\Models\IRS;
 use Illuminate\Http\Request;
 
@@ -15,7 +15,9 @@ class DashboardMahasiswaController extends Controller
                        ->first();
 
         $semester = $latestIrs ? $latestIrs->semester : 1;
-        $statusRegistrasi = "Aktif"; // Sesuaikan dengan logika status registrasi Anda
+        $statusRegistrasi = Mahasiswa::where('status', 'Aktif')->exists()
+        ? 'Aktif'
+        : 'Cuti';
 
         return view('dashboard.dashmahasiswa', [
             'semester' => $semester,

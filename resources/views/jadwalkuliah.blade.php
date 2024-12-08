@@ -21,6 +21,11 @@
         font-weight: bold;
     }
 
+    .breadcrumb {
+            padding: 1rem 1.5rem;
+            color: #6c757d;
+        }
+
     /* Schedule table styles */
     .schedule-table {
         width: 100%;
@@ -114,6 +119,10 @@
     <header class="header">
         <a href="{{ route('dashboard.kapro') }}" class="text-white text-2xl font-bold">gaSIAP</a>
     </header>
+
+    <div class="breadcrumb">
+        Home / Buat Jadwal
+    </div>
 
     <div class="container mx-auto px-6 py-4">
         <h2 class="text-2xl font-semibold text-gray-700 mb-4 flex justify-between items-center">
