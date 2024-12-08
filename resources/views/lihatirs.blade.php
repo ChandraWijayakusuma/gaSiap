@@ -147,7 +147,7 @@
 </head>
 <body class="bg-gray-100">
     <header class="header">
-        <a href="/dashboard" class="logo">gaSIAP</a>
+        <a href="{{ route('dashboard') }}" class="logo">gaSIAP</a>
     </header>
 
     <div class="breadcrumb">
@@ -179,8 +179,8 @@
     
         <!-- Add Download PDF button only if approved -->
         @if($irs && $irs->status === 'Disetujui' && $irsDetails->isNotEmpty())
-            <a href="{{ route('irs.download-pdf', $irs->id) }}" class="download-btn">
-                Download PDF
+            <a href="{{ route('irs.download-pdf', $irs->id) }}" class="download-btn">   
+                Cetak IRS
             </a>
         @endif
     
