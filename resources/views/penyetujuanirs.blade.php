@@ -69,13 +69,7 @@
 </head>
 <body class="bg-gray-100">
     <header class="header">
-        <a href="#" class="logo">gaSIAP</a>
-        <button class="logout-btn" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-            Logout
-        </button>
-        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="hidden">
-            @csrf
-        </form>
+        <a href="{{ route('dashboard') }}" class="logo">gaSIAP</a>
     </header>
 
     <div class="container mx-auto px-6 py-8">
@@ -90,7 +84,6 @@
                         <thead class="bg-gray-50">
                             <tr>
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">No</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">NIM</th>
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nama</th>
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Jumlah SKS</th>
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Aksi</th>
@@ -100,7 +93,6 @@
                             @foreach($irsSubmissions as $index => $irs)
                                 <tr>
                                     <td class="px-6 py-4 whitespace-nowrap">{{ $index + 1 }}</td>
-                                    <td class="px-6 py-4 whitespace-nowrap">{{ $irs->mahasiswa->nim }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap">{{ $irs->mahasiswa->nama }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap">{{ $irs->details->sum('matakuliah.sks') }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap space-x-2">

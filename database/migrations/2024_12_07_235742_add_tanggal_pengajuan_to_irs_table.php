@@ -9,16 +9,28 @@ return new class extends Migration
     public function up()
     {
         Schema::table('irs', function (Blueprint $table) {
-            $table->timestamp('tanggal_pengajuan')->nullable();
-            $table->timestamp('tanggal_persetujuan')->nullable();
+            // Periksa jika kolom 'tanggal_pengajuan' belum ada sebelum menambahkannya
+            if (!Schema::hasColumn('irs', 'tanggal_pengajuan')) {
+                $table->timestamp('tanggal_pengajuan')->nullable();
+            }
+
+            // Periksa jika kolom 'tanggal_persetujuan' belum ada sebelum menambahkannya
+            if (!Schema::hasColumn('irs', 'tanggal_persetujuan')) {
+                $table->timestamp('tanggal_persetujuan')->nullable();
+            }
         });
     }
 
     public function down()
     {
         Schema::table('irs', function (Blueprint $table) {
-            $table->dropColumn('tanggal_pengajuan');
-            $table->dropColumn('tanggal_persetujuan');
+            if (Schema::hasColumn('irs', 'tanggal_pengajuan')) {
+                $table->dropColumn('tanggal_pengajuan');
+            }
+
+            if (Schema::hasColumn('irs', 'tanggal_persetujuan')) {
+                $table->dropColumn('tanggal_persetujuan');
+            }
         });
     }
 };
