@@ -129,6 +129,20 @@
         .kembali-btn:hover {
             background-color: #5a6268;
         }
+
+        .download-btn {
+            background-color: #28a745;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .download-btn:hover {
+            background-color: #218838;
+        }
     </style>
 </head>
 <body class="bg-gray-100">
@@ -157,13 +171,19 @@
 <div class="flex justify-between items-center mb-6">
     <h1 class="text-2xl font-bold text-gray-800">IRS Semester {{ $irs ? $irs->semester : '1' }}</h1>
     <div class="flex items-center space-x-4">
-        <span class="status-badge 
-            {{ $irs && $irs->status === 'Disetujui' ? 'status-disetujui' : 
+        <span class="status-badge {{ $irs && $irs->status === 'Disetujui' ? 'status-disetujui' : 
                ($irs && $irs->status === 'Menunggu Persetujuan' ? 'status-menunggu' : 
                 ($irs && $irs->status === 'Ditolak' ? 'status-ditolak' : 'status-belum')) }}">
             {{ $irs ? $irs->status : 'Belum Disetujui' }}
         </span>
-
+    
+        <!-- Add Download PDF button only if approved -->
+        @if($irs && $irs->status === 'Disetujui' && $irsDetails->isNotEmpty())
+            <a href="{{ route('irs.download-pdf', $irs->id) }}" class="download-btn">
+                Download PDF
+            </a>
+        @endif
+    
         @if($irs && $irs->status === 'Belum Disetujui' && $irsDetails->isNotEmpty())
             <form action="{{ route('irs.ajukan', $irs->id) }}" method="POST" class="inline">
                 @csrf

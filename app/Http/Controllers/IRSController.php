@@ -6,6 +6,7 @@ use App\Models\IRS;
 use App\Models\IRSDetail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class IRSController extends Controller
 {
@@ -76,4 +77,24 @@ class IRSController extends Controller
             ], 500);
         }
     }
+
+    public function downloadPDF($id)
+{
+    $irs = IRS::findOrFail($id);
+    $irsDetails = IRSDetail::with(['matakuliah', 'jadwal'])
+                 ->where('irs_id', $id)
+                 ->get();
+    
+    // Check if the IRS is approved
+    if ($irs->status !== 'Disetujui') {
+        return redirect()->back()->with('error', 'IRS belum disetujui. Tidak dapat mengunduh PDF.');
+    }
+
+    $mahasiswa = $irs->mahasiswa;
+    $totalSKS = $irsDetails->sum('matakuliah.sks');
+
+    $pdf = PDF::loadView('pdf.irs', compact('irs', 'irsDetails', 'mahasiswa', 'totalSKS'));
+    
+    return $pdf->download('IRS_Semester_' . $irs->semester . '.pdf');
+}
 }
