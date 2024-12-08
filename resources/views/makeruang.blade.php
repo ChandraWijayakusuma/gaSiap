@@ -29,6 +29,7 @@
             padding: 1rem 1.5rem;
             color: #6c757d;
         }
+        
     </style>
 </head>
 <body class="bg-gray-100">
@@ -38,7 +39,7 @@
 </header>
 
 <div class="breadcrumb">
-    Home / Lihat IRS
+    Home / Buat Ruang
 </div>
 
 <div class="container mx-auto px-6 py-4">
