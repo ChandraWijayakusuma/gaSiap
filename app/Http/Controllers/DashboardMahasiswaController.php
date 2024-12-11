@@ -10,7 +10,7 @@ class DashboardMahasiswaController extends Controller
     public function index()
     {
         // Ambil IRS terbaru dari mahasiswa
-        $latestIrs = IRS::where('mahasiswa_id', 1)  // Ganti dengan ID mahasiswa yang sesuai
+        $latestIrs = IRS::where('mahasiswa_id', 1)
                        ->latest()
                        ->first();
 

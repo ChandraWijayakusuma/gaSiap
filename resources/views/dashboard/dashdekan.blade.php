@@ -119,9 +119,10 @@
 
         .status-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr); /* Status tetap dalam dua kolom */
+            grid-template-columns: repeat(2, 1fr);
             gap: 1rem;
             text-align: center;
+            padding-top: 1.5rem;
         }
 
         .status-item-label {

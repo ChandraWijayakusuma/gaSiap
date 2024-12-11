@@ -10,7 +10,7 @@ class RegistrasiController extends Controller
     public function index()
 {
     // Ambil data status akademik dari database atau set default
-    $statusAkademik = 'Belum Terpilih'; // Default status
+    $statusAkademik = 'Belum Terpilih';
     return view('registrasi', compact('statusAkademik'));
 
 
