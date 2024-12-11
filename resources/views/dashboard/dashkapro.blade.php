@@ -226,14 +226,24 @@
 
         <!-- Room Section as a clickable link -->
         <a href="{{ route('jadwalkuliah') }}" class="room-section">
-        <div class="room-icon">
-            <img src="{{ asset('calan.png') }}" alt="Room Icon">
-        </div>
-        <div class="room-info">
-            <h2>Jadwal Kuliah</h2>
-            <p>Pengaturan Penempatan Matakuliah</p>
-        </div>
-    </a>
+            <div class="room-icon">
+                <img src="{{ asset('calan.png') }}" alt="Room Icon">
+            </div>
+            <div class="room-info">
+                <h2>Jadwal Kuliah</h2>
+                <p>Pengaturan Penempatan Matakuliah</p>
+            </div>
+        </a>
+        <!-- Matakuliah Section as a clickable link -->
+        <a href="{{ route('matakuliah.create') }}" class="room-section">
+            <div class="room-icon">
+                <img src="{{ asset('document.png') }}" alt="Matakuliah Icon">
+            </div>
+            <div class="room-info">
+                <h2>Buat Matakuliah</h2>
+                <p>Tambahkan Matakuliah Baru</p>
+            </div>
+        </a>
     </main>
 </body>
 </html>

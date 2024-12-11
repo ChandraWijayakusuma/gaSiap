@@ -7,10 +7,11 @@ use App\Http\Controllers\RegistrasiController;
 use App\Http\Controllers\JadwalKuliahController; // Tambahkan ini untuk jadwalkuliah
 use App\Http\Controllers\DashboardMahasiswaController;
 use App\Http\Controllers\DashboardDosenController;
-use App\Http\Controllers\MataKuliahController;
+use App\Http\Controllers\MatakuliahController;
 use App\Http\Controllers\BuatIRSController;
 use App\Http\Controllers\IRSController;
 use App\Http\Controllers\PenyetujuanIRSController;
+
 use Illuminate\Support\Facades\Route;
 
 // Route untuk halaman login
@@ -47,6 +48,14 @@ Route::get('/dashboard/dekan', [DashboardDekanController::class, 'index'])->name
 Route::get('/dekan/penyetujuan-jadwal', [JadwalKuliahController::class, 'penyetujuanJadwal'])->name('dekan.penyetujuan.jadwal');
 Route::get('/dashboard/kapro', [JadwalKuliahController::class, 'dashKapro'])->name('dashboard.kapro');
 Route::get('/lihat-jadwal', [JadwalKuliahController::class, 'lihatJadwal'])->name('lihat.jadwal');
+
+// Route buat matakuliah
+Route::get('/matakuliah/create', [MatakuliahController::class, 'create'])->name('matakuliah.create');
+Route::post('/matakuliah', [MatakuliahController::class, 'store'])->name('matakuliah.store');
+Route::get('/matakuliah', [MatakuliahController::class, 'index'])->name('matakuliah.index');
+Route::get('/matakuliah/{matakuliah}/edit', [MatakuliahController::class, 'edit'])->name('matakuliah.edit');
+Route::delete('/matakuliah/{matakuliah}', [MatakuliahController::class, 'destroy'])->name('matakuliah.destroy');
+Route::put('/matakuliah/{matakuliah}', [MatakuliahController::class, 'update'])->name('matakuliah.update');
 
 // Route untuk Registrasi Akademik
 Route::get('/registrasi', [RegistrasiController::class, 'index'])->name('registrasi');

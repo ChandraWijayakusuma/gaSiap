@@ -15,7 +15,8 @@ class Matakuliah extends Model
         'kode_matakuliah', 
         'nama_matakuliah', 
         'prodi', 
-        'sks', 
+        'sks',
+        'semester',
         'deskripsi',
     ];
 
