@@ -26,7 +26,7 @@ public function store(Request $request)
     // Cek apakah nama ruang sudah ada
     $exists = Ruang::where('nama_ruang', $request->nama_ruang)->exists();
     if ($exists) {
-        // Jika nama ruang sudah ada, tampilkan pesan error dan simpan di session
+        // Jika nama ruang sudah ada
         return redirect()->back()->with('error', 'Nama ruang sudah terdaftar!');
     }
 
@@ -34,7 +34,7 @@ public function store(Request $request)
         'nama_ruang' => $request->nama_ruang,
         'kuota_ruang' => $request->kuota_ruang,
         'prodi' => null,
-        'status_persetujuan' => 'Belum Disetujui', // Default status
+        'status_persetujuan' => 'Belum Disetujui',
     ]);
 
     // Jika berhasil, beri pesan success
@@ -49,7 +49,7 @@ public function store(Request $request)
         $request->validate([
             'nama_ruang' => 'required|string|max:255',
             'kuota_ruang' => 'required|integer|min:1',
-            'prodi' => 'nullable|string|max:255', // Prodi boleh kosong
+            'prodi' => 'nullable|string|max:255',
         ]);
 
         $room = Ruang::findOrFail($id);
@@ -59,7 +59,7 @@ public function store(Request $request)
             'nama_ruang' => $request->nama_ruang,
             'kuota_ruang' => $request->kuota_ruang,
             'prodi' => $request->prodi,
-            'status_persetujuan' => 'Belum Disetujui', // Set status menjadi "Belum Disetujui"
+            'status_persetujuan' => 'Belum Disetujui',
         ]);
 
         return redirect()->back()->with('success', 'Room updated successfully.');
@@ -88,7 +88,7 @@ public function store(Request $request)
         $room = Ruang::findOrFail($id);
         $room->update([
             'prodi' => null,
-            'status_persetujuan' => 'Belum Disetujui', // Set ulang status menjadi "Belum Disetujui"
+            'status_persetujuan' => 'Belum Disetujui',
         ]);
 
         return redirect()->back()->with('success', 'Prodi cleared successfully.');

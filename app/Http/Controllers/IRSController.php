@@ -85,7 +85,6 @@ class IRSController extends Controller
                  ->where('irs_id', $id)
                  ->get();
     
-    // Check if the IRS is approved
     if ($irs->status !== 'Disetujui') {
         return redirect()->back()->with('error', 'IRS belum disetujui. Tidak dapat mengunduh PDF.');
     }

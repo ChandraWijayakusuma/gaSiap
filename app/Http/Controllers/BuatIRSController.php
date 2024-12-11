@@ -12,15 +12,15 @@ class BuatIRSController extends Controller
 {
     public function index()
     {
-        // Ambil semua jadwal yang sudah disetujui
+        // Mengambil jadwal yang sudah disetujui 
         $jadwal = Jadwal::with('matakuliah')
                     ->where('status', 'Setujui')
                     ->get();
         
-        // Ambil mata kuliah yang sudah ada di IRS mahasiswa
+        // Mengambil matakuliah yang sudah ada di irs
         $selectedMatkul = IRSDetail::join('irs', 'irs_details.irs_id', '=', 'irs.id')
-                    ->where('irs_details.mahasiswa_id', 1) // Sesuaikan dengan ID mahasiswa
-                    ->where('irs.status', '!=', 'Dibatalkan') // Tambahkan kondisi ini
+                    ->where('irs_details.mahasiswa_id', 1)
+                    ->where('irs.status', '!=', 'Dibatalkan')
                     ->pluck('matakuliah_id')
                     ->toArray();
 
@@ -31,7 +31,7 @@ class BuatIRSController extends Controller
     {
         DB::beginTransaction();
         try {
-            // Cek apakah sudah ada IRS untuk semester ini
+            // Mengecek ada IRS untuk semester ini apa engga
             $existingIRS = IRS::where('mahasiswa_id', 1)
                             ->where('semester', $request->semester)
                             ->first();
@@ -42,14 +42,14 @@ class BuatIRSController extends Controller
             } else {
                 // Buat IRS baru
                 $irs = IRS::create([
-                    'mahasiswa_id' => 1, // Sesuaikan dengan ID mahasiswa
+                    'mahasiswa_id' => 1,
                     'semester' => $request->semester,
                     'status' => 'Belum Disetujui'
                 ]);
             }
 
             foreach($request->matakuliah as $mk) {
-                // Cek apakah mata kuliah sudah ada di IRS
+                // Untuk mengecek matakuliah sudah ada atau belom
                 $existingDetail = IRSDetail::where('irs_id', $irs->id)
                                         ->where('matakuliah_id', $mk['id'])
                                         ->first();
@@ -57,7 +57,7 @@ class BuatIRSController extends Controller
                 if (!$existingDetail) {
                     IRSDetail::create([
                         'irs_id' => $irs->id,
-                        'mahasiswa_id' => 1, // Sesuaikan dengan ID mahasiswa
+                        'mahasiswa_id' => 1,
                         'matakuliah_id' => $mk['id'],
                         'jadwal_id' => $mk['jadwal_id']
                     ]);

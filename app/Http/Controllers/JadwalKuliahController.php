@@ -118,8 +118,8 @@ public function viewPengajuan()
             ? 'Belum Disetujui'
             : 'Disetujui';
 
-        $irsTerverifikasi = 10; // Contoh jumlah data IRS Terverifikasi
-        $irsBelumTerverifikasi = 15; // Contoh jumlah data IRS Belum Terverifikasi
+        $irsTerverifikasi = 10; 
+        $irsBelumTerverifikasi = 15; 
 
         return view('dashboard.dashkapro', compact('statusJadwal', 'irsTerverifikasi', 'irsBelumTerverifikasi'));
     }

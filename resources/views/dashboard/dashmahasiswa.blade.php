@@ -124,7 +124,7 @@
         }
 
         .status-card {
-            padding: 1.5rem;
+            padding: 3.3rem;
             background-color: white;
             border-radius: 0.5rem;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
@@ -134,6 +134,7 @@
             font-size: 1.5rem;
             font-weight: 600;
             margin-bottom: 1rem;
+            margin-top: -1rem;
             color: #343a40;
         }
 
@@ -236,9 +237,15 @@
 
         .achievements-header {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
+            justify-content: flex-start;  /* Agar gambar dan teks berada di kiri */
+            align-items: center;  /* Menjaga gambar dan teks sejajar secara vertikal */
             margin-bottom: 1rem;
+        }
+
+        .achievements-image {
+            width: 32px;
+            height: 32px;
+            margin-right: 20px;
         }
 
         .achievements-title {
@@ -346,9 +353,11 @@
         <!-- Academic Achievements Section -->
         <div class="achievements-card">
             <div class="achievements-header">
+                <img src="{{ asset('Trophy.png') }}" alt="Prestasi Akademik" class="achievements-image">
                 <h2 class="achievements-title">Prestasi Akademik</h2>
             </div>
-            
+        
+            <!-- Achievement Stats -->
             <div class="achievement-stats">
                 <div class="achievement-item">
                     <p class="achievement-label">IPK (Index Prestasi Kumulatif)</p>
